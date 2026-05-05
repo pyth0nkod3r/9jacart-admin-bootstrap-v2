@@ -1,119 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buyer Signups - AdminHub Dashboard</title>
+    <title>Buyer Sign ups - AdminHub</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/svg+xml" href="../public/favicon.svg">
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/guard.js"></script>
+    <script src="js/layout.js"></script>
 </head>
-<body>
-    <nav id="sidebar" class="sidebar">
-        <div class="sidebar-header">
-            <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=40&h=40&fit=crop" alt="Logo" class="logo-img">
-            <span class="logo-text">AdminHub</span>
-            <button id="sidebarCollapse" class="btn btn-link d-lg-none"><i class="bi bi-x-lg"></i></button>
-        </div>
-        <ul class="nav flex-column sidebar-nav">
-            <li class="nav-item"><a href="dashboard.html" class="nav-link"><i class="bi bi-speedometer2"></i><span>Overview</span></a></li>
-            <li class="nav-item"><a href="contacts.html" class="nav-link"><i class="bi bi-envelope"></i><span>Contacts</span></a></li>
-            <li class="nav-item"><a href="waitlist.html" class="nav-link"><i class="bi bi-list-check"></i><span>Waitlist</span></a></li>
-            <li class="nav-item"><a href="vendor-signups.html" class="nav-link"><i class="bi bi-person-plus"></i><span>Vendor Signups</span></a></li>
-            <li class="nav-item"><a href="buyer-signups.html" class="nav-link active"><i class="bi bi-cart-plus"></i><span>Buyer Signups</span></a></li>
-            <li class="nav-item"><a href="orders.html" class="nav-link"><i class="bi bi-cart3"></i><span>Orders</span></a></li>
-            <li class="nav-item"><a href="business-categories.html" class="nav-link"><i class="bi bi-building"></i><span>Business Categories</span></a></li>
-            <li class="nav-item"><a href="product-categories.html" class="nav-link"><i class="bi bi-box-seam"></i><span>Product Categories</span></a></li>
-            <li class="nav-item"><a href="tickets.html" class="nav-link"><i class="bi bi-ticket"></i><span>Tickets</span></a></li>
-            <li class="nav-item"><a href="notifications.html" class="nav-link"><i class="bi bi-bell"></i><span>Notifications</span></a></li>
-        </ul>
-        <div class="sidebar-footer"><a href="login.html" class="nav-link" id="logoutBtn"><i class="bi bi-box-arrow-left"></i><span>Logout</span></a></div>
-    </nav>
+
+<body data-route="buyer-signups">
+    <!-- Shared layout will inject sidebar and top navbar here -->
+    <div id="layout-root"></div>
+
+    <!-- Main Content -->
     <div id="main-content" class="main-content">
-        <header class="top-navbar">
-            <div class="navbar-left">
-                <button id="sidebarToggle" class="btn btn-link"><i class="bi bi-list"></i></button>
-                <h4 class="mb-0 page-title">Buyer Signups</h4>
-            </div>
-            <div class="navbar-right">
-                <div class="theme-switcher dropdown">
-                    <button id="themeToggle" class="btn btn-link theme-toggle" data-bs-toggle="dropdown" aria-expanded="false" title="Theme"><i class="bi bi-palette"></i></button>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li><h6 class="dropdown-header">Color Theme</h6></li>
-                        <li><a class="dropdown-item theme-option" data-theme="forest" href="#"><span class="theme-swatch" style="background:#2e7d32"></span>Forest<i class="bi bi-check2 d-none"></i></a></li>
-                        <li><a class="dropdown-item theme-option" data-theme="ocean" href="#"><span class="theme-swatch" style="background:#1565c0"></span>Ocean<i class="bi bi-check2 d-none"></i></a></li>
-                        <li><a class="dropdown-item theme-option" data-theme="sunset" href="#"><span class="theme-swatch" style="background:#e65100"></span>Sunset<i class="bi bi-check2 d-none"></i></a></li>
-                        <li><a class="dropdown-item theme-option" data-theme="midnight" href="#"><span class="theme-swatch" style="background:#5e35b1"></span>Midnight<i class="bi bi-check2 d-none"></i></a></li>
-                        <li><a class="dropdown-item theme-option" data-theme="minimal" href="#"><span class="theme-swatch" style="background:#212121"></span>Minimal<i class="bi bi-check2 d-none"></i></a></li>
-                    </ul>
-                </div>
-                <div class="notification-dropdown dropdown">
-                    <button class="btn btn-link notification-btn" data-bs-toggle="dropdown"><i class="bi bi-bell"></i><span class="notification-badge">3</span></button>
-                    <ul class="dropdown-menu dropdown-menu-end notification-menu">
-                        <li><h6 class="dropdown-header">Notifications</h6></li>
-                        <li><a class="dropdown-item" href="#"><i class="bi bi-cart-plus"></i> New buyer signup</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item text-center" href="notifications.html">View all</a></li>
-                    </ul>
-                </div>
-                <div class="user-dropdown dropdown">
-                    <button class="btn btn-link user-btn" data-bs-toggle="dropdown">
-                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop" alt="User" class="avatar-xs rounded-circle">
-                        <span>Admin</span>
+        <!-- Page Content -->
+        <main class="page-container">
+            <div class="d-flex align-items-center justify-content-between mb-4">
+                <h1 class="h3 mb-0">Buyer Sign ups</h1>
+                <div class="d-flex align-items-center gap-3">
+                    <span class="text-muted small" id="totalSignups">0 buyer registrations</span>
+                    <button class="btn btn-outline-primary" id="exportBtn">
+                        <i class="bi bi-download"></i> Export CSV
                     </button>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="settings.html"><i class="bi bi-gear"></i> Settings</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="login.html"><i class="bi bi-box-arrow-left"></i> Logout</a></li>
-                    </ul>
                 </div>
             </div>
-        </header>
-        <main class="content-area">
-            <div class="page-header">
-                <div class="d-flex justify-content-between align-items-center">
-                    <h1 class="page-heading">Buyer Signups</h1>
-                    <span class="text-muted" id="totalBuyers">0 total buyers</span>
-                </div>
-            </div>
+
             <div class="card">
                 <div class="card-header">
-                    <h5 class="card-title mb-0">Registered Buyers</h5>
-                    <p class="text-muted mb-0">Manage buyer accounts and registrations</p>
+                    <h5 class="card-title mb-0">Buyer Registrations</h5>
+                    <p class="text-muted small mb-0">All buyer accounts registered on the platform</p>
                 </div>
                 <div class="card-body">
+                    <!-- Loading state -->
                     <div id="loadingState" class="text-center py-5">
-                        <div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div>
+                        <div class="spinner-border text-primary" role="status"></div>
                         <p class="mt-3 text-muted">Loading buyer signups...</p>
                     </div>
+
+                    <!-- Error state -->
                     <div id="errorState" class="text-center py-5 d-none">
                         <i class="bi bi-exclamation-triangle text-danger display-4"></i>
                         <p class="mt-3 text-danger" id="errorMessage"></p>
-                        <button class="btn btn-outline-primary" onclick="loadBuyerSignups()">Try Again</button>
+                        <button class="btn btn-outline-primary" id="retryBtn">Try Again</button>
                     </div>
+
+                    <!-- Empty state -->
                     <div id="emptyState" class="text-center py-5 d-none">
                         <i class="bi bi-inbox display-4 text-muted"></i>
-                        <p class="mt-3 text-muted">No buyer signups found</p>
+                        <p class="mt-3 text-muted" id="emptyMessage">No buyer signups found</p>
+                        <button class="btn btn-outline-primary" id="refreshBtn">Refresh</button>
                     </div>
-                    <div id="buyerList" class="d-none">
-                        <div class="table-responsive">
-                            <table class="table table-hover align-middle">
-                                <thead class="table-light">
-                                    <tr>
-                                        <th>Buyer</th>
-                                        <th>Email</th>
-                                        <th>Phone</th>
-                                        <th>Status</th>
-                                        <th>Date</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="buyerContainer"></tbody>
-                            </table>
+
+                    <!-- Signups list -->
+                    <div id="signupsList" class="d-none">
+                        <!-- Search and filter toolbar -->
+                        <div
+                            class="mb-4 d-flex flex-column gap-3 flex-md-row align-items-md-center justify-content-md-between">
+                            <div class="position-relative flex-1">
+                                <i
+                                    class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-muted"></i>
+                                <input type="text" class="form-control ps-5" id="searchInput"
+                                    placeholder="Search by name, email, phone, or buyer ID...">
+                            </div>
+                            <div class="position-relative">
+                                <button class="btn btn-outline-secondary d-flex align-items-center gap-2"
+                                    id="filterBtn">
+                                    <i class="bi bi-funnel"></i> Filters
+                                    <span class="badge bg-primary rounded-pill px-2 py-0 small d-none"
+                                        id="filterCountBadge">0</span>
+                                </button>
+                                <!-- Filter panel -->
+                                <div id="filterPanel" class="position-absolute end-0 mt-2 p-4 rounded shadow d-none"
+                                    style="width: 280px; background: var(--popover); border: 1px solid var(--border); z-index: 1000;">
+                                    <div class="mb-3 fw-bold small">Filter by status</div>
+                                    <div class="mb-3">
+                                        <label class="d-flex align-items-center gap-2 cursor-pointer mb-2">
+                                            <input type="checkbox" id="filterActive">
+                                            <span>Active</span>
+                                        </label>
+                                        <label class="d-flex align-items-center gap-2 cursor-pointer">
+                                            <input type="checkbox" id="filterInactive">
+                                            <span>Inactive</span>
+                                        </label>
+                                    </div>
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <button class="btn btn-sm btn-link text-decoration-none"
+                                            id="clearFiltersBtn">Clear</button>
+                                        <button class="btn btn-sm btn-primary" id="doneFiltersBtn">Done</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-muted small mb-0 text-md-end" id="filteredCount">0 Buyers</p>
                         </div>
-                        <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top">
-                            <span class="text-muted" id="paginationInfo"></span>
+
+                        <div id="signupsContainer"></div>
+
+                        <!-- Pagination -->
+                        <div class="d-flex align-items-center justify-content-between mt-4 pt-3 border-top">
+                            <span class="text-muted small" id="paginationInfo"></span>
                             <div class="btn-group" id="paginationControls"></div>
                         </div>
                     </div>
@@ -123,6 +116,11 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/mock-data.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/notifications.js"></script>
     <script src="js/app.js"></script>
+    <script>
+    </script>
 </body>
+
 </html>

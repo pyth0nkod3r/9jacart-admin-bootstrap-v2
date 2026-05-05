@@ -1,135 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Waitlist - AdminHub Dashboard</title>
+    <title>Waitlist - AdminHub</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/svg+xml" href="../public/favicon.svg">
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/guard.js"></script>
+    <script src="js/layout.js"></script>
 </head>
-<body>
-    <nav id="sidebar" class="sidebar">
-        <div class="sidebar-header">
-            <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=40&h=40&fit=crop" alt="Logo" class="logo-img">
-            <span class="logo-text">AdminHub</span>
-            <button id="sidebarCollapse" class="btn btn-link d-lg-none"><i class="bi bi-x-lg"></i></button>
-        </div>
-        <ul class="nav flex-column sidebar-nav">
-            <li class="nav-item"><a href="dashboard.html" class="nav-link"><i class="bi bi-speedometer2"></i><span>Overview</span></a></li>
-            <li class="nav-item"><a href="contacts.html" class="nav-link"><i class="bi bi-envelope"></i><span>Contacts</span></a></li>
-            <li class="nav-item"><a href="waitlist.html" class="nav-link active"><i class="bi bi-list-check"></i><span>Waitlist</span></a></li>
-            <li class="nav-item"><a href="vendor-signups.html" class="nav-link"><i class="bi bi-person-plus"></i><span>Vendor Signups</span></a></li>
-            <li class="nav-item"><a href="buyer-signups.html" class="nav-link"><i class="bi bi-cart-plus"></i><span>Buyer Signups</span></a></li>
-            <li class="nav-item"><a href="orders.html" class="nav-link"><i class="bi bi-cart3"></i><span>Orders</span></a></li>
-            <li class="nav-item"><a href="business-categories.html" class="nav-link"><i class="bi bi-building"></i><span>Business Categories</span></a></li>
-            <li class="nav-item"><a href="product-categories.html" class="nav-link"><i class="bi bi-box-seam"></i><span>Product Categories</span></a></li>
-            <li class="nav-item"><a href="tickets.html" class="nav-link"><i class="bi bi-ticket"></i><span>Tickets</span></a></li>
-            <li class="nav-item"><a href="notifications.html" class="nav-link"><i class="bi bi-bell"></i><span>Notifications</span></a></li>
-        </ul>
-        <div class="sidebar-footer"><a href="login.html" class="nav-link" id="logoutBtn"><i class="bi bi-box-arrow-left"></i><span>Logout</span></a></div>
-    </nav>
 
+<body data-route="waitlist">
+    <!-- Shared layout will inject sidebar and top navbar here -->
+    <div id="layout-root"></div>
+
+    <!-- Main Content -->
     <div id="main-content" class="main-content">
-        <header class="top-navbar">
-            <div class="navbar-left">
-                <button id="sidebarToggle" class="btn btn-link"><i class="bi bi-list"></i></button>
-                <h4 class="mb-0 page-title">Waitlist</h4>
-            </div>
-            <div class="navbar-right">
-                <div class="theme-switcher dropdown">
-                    <button id="themeToggle" class="btn btn-link theme-toggle" data-bs-toggle="dropdown" aria-expanded="false" title="Theme"><i class="bi bi-palette"></i></button>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li><h6 class="dropdown-header">Color Theme</h6></li>
-                        <li><a class="dropdown-item theme-option" data-theme="forest" href="#"><span class="theme-swatch" style="background:#2e7d32"></span>Forest<i class="bi bi-check2 d-none"></i></a></li>
-                        <li><a class="dropdown-item theme-option" data-theme="ocean" href="#"><span class="theme-swatch" style="background:#1565c0"></span>Ocean<i class="bi bi-check2 d-none"></i></a></li>
-                        <li><a class="dropdown-item theme-option" data-theme="sunset" href="#"><span class="theme-swatch" style="background:#e65100"></span>Sunset<i class="bi bi-check2 d-none"></i></a></li>
-                        <li><a class="dropdown-item theme-option" data-theme="midnight" href="#"><span class="theme-swatch" style="background:#5e35b1"></span>Midnight<i class="bi bi-check2 d-none"></i></a></li>
-                        <li><a class="dropdown-item theme-option" data-theme="minimal" href="#"><span class="theme-swatch" style="background:#212121"></span>Minimal<i class="bi bi-check2 d-none"></i></a></li>
-                    </ul>
-                </div>
-                <div class="notification-dropdown dropdown">
-                    <button class="btn btn-link notification-btn" data-bs-toggle="dropdown"><i class="bi bi-bell"></i><span class="notification-badge">3</span></button>
-                    <ul class="dropdown-menu dropdown-menu-end notification-menu">
-                        <li><h6 class="dropdown-header">Notifications</h6></li>
-                        <li><a class="dropdown-item" href="#"><i class="bi bi-person-plus"></i> New waitlist signup</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item text-center" href="notifications.html">View all</a></li>
-                    </ul>
-                </div>
-                <div class="user-dropdown dropdown">
-                    <button class="btn btn-link user-btn" data-bs-toggle="dropdown">
-                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop" alt="User" class="avatar-xs rounded-circle">
-                        <span>Admin</span>
+        <!-- Page Content -->
+        <main class="page-container">
+            <div class="d-flex align-items-center justify-content-between mb-4">
+                <h1 class="h3 mb-0">Waitlist</h1>
+                <div class="d-flex align-items-center gap-3">
+                    <span class="text-muted small" id="totalWaitlist">0 vendor applications</span>
+                    <button class="btn btn-outline-primary" id="exportBtn">
+                        <i class="bi bi-download"></i> Export CSV
                     </button>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="settings.html"><i class="bi bi-gear"></i> Settings</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="login.html"><i class="bi bi-box-arrow-left"></i> Logout</a></li>
-                    </ul>
-                </div>
-            </div>
-        </header>
-
-        <main class="content-area">
-            <div class="page-header">
-                <div class="d-flex justify-content-between align-items-center">
-                    <h1 class="page-heading">Waitlist</h1>
-                    <div class="d-flex gap-3">
-                        <span class="text-muted align-self-center" id="totalWaitlist">0 total entries</span>
-                        <button class="btn btn-outline-primary" id="exportBtn">
-                            <i class="bi bi-download"></i> Export CSV
-                        </button>
-                    </div>
                 </div>
             </div>
 
             <div class="card">
                 <div class="card-header">
-                    <h5 class="card-title mb-0">Waitlist Entries</h5>
-                    <p class="text-muted mb-0">Businesses waiting to join the platform</p>
+                    <h5 class="card-title mb-0">Vendor Applications</h5>
+                    <p class="text-muted small mb-0">Businesses waiting to join the AdminHub platform</p>
                 </div>
                 <div class="card-body">
+                    <!-- Loading state -->
                     <div id="loadingState" class="text-center py-5">
-                        <div class="spinner-border text-primary" role="status">
-                            <span class="visually-hidden">Loading...</span>
-                        </div>
+                        <div class="spinner-border text-primary" role="status"></div>
                         <p class="mt-3 text-muted">Loading waitlist...</p>
                     </div>
 
+                    <!-- Error state -->
                     <div id="errorState" class="text-center py-5 d-none">
                         <i class="bi bi-exclamation-triangle text-danger display-4"></i>
                         <p class="mt-3 text-danger" id="errorMessage"></p>
-                        <button class="btn btn-outline-primary" onclick="loadWaitlist()">Try Again</button>
+                        <button class="btn btn-outline-primary" id="retryBtn">Try Again</button>
                     </div>
 
+                    <!-- Empty state -->
                     <div id="emptyState" class="text-center py-5 d-none">
                         <i class="bi bi-inbox display-4 text-muted"></i>
                         <p class="mt-3 text-muted">No waitlist entries found</p>
-                        <button class="btn btn-outline-primary" onclick="loadWaitlist()">Refresh</button>
+                        <button class="btn btn-outline-primary" id="refreshBtn">Refresh</button>
                     </div>
 
+                    <!-- Waitlist list -->
                     <div id="waitlistList" class="d-none">
-                        <div class="table-responsive">
-                            <table class="table table-hover align-middle">
-                                <thead class="table-light">
-                                    <tr>
-                                        <th>Business Name</th>
-                                        <th>Contact</th>
-                                        <th>Category</th>
-                                        <th>State</th>
-                                        <th>Status</th>
-                                        <th>Date</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="waitlistContainer"></tbody>
-                            </table>
-                        </div>
-                        
-                        <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top">
-                            <span class="text-muted" id="paginationInfo"></span>
+                        <div id="waitlistContainer"></div>
+
+                        <!-- Pagination -->
+                        <div class="d-flex align-items-center justify-content-between mt-4 pt-3 border-top">
+                            <span class="text-muted small" id="paginationInfo"></span>
                             <div class="btn-group" id="paginationControls"></div>
                         </div>
                     </div>
@@ -140,6 +77,11 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/mock-data.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/notifications.js"></script>
     <script src="js/app.js"></script>
+    <script>
+    </script>
 </body>
+
 </html>
