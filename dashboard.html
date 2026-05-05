@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - E-commerce Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=40&h=40&fit=crop" alt="Logo" class="logo-img">
+            <span class="logo-text">E-Commerce</span>
+            <button id="sidebarCollapse" class="btn btn-link d-lg-none"><i class="bi bi-x-lg"></i></button>
+        </div>
+        <ul class="nav flex-column sidebar-nav">
+            <li class="nav-item"><a href="dashboard.html" class="nav-link active"><i class="bi bi-speedometer2"></i><span>Dashboard</span></a></li>
+            <li class="nav-item"><a href="products.html" class="nav-link"><i class="bi bi-box-seam"></i><span>Products</span></a></li>
+            <li class="nav-item"><a href="orders.html" class="nav-link"><i class="bi bi-cart3"></i><span>Orders</span></a></li>
+            <li class="nav-item"><a href="customers.html" class="nav-link"><i class="bi bi-people"></i><span>Customers</span></a></li>
+            <li class="nav-item"><a href="analytics.html" class="nav-link"><i class="bi bi-graph-up"></i><span>Analytics</span></a></li>
+            <li class="nav-item"><a href="messages.html" class="nav-link"><i class="bi bi-chat-dots"></i><span>Messages</span><span class="badge bg-danger ms-auto">3</span></a></li>
+            <li class="nav-item"><a href="settings.html" class="nav-link"><i class="bi bi-gear"></i><span>Settings</span></a></li>
+        </ul>
+        <div class="sidebar-footer"><a href="login.html" class="nav-link" id="logoutBtn"><i class="bi bi-box-arrow-left"></i><span>Logout</span></a></div>
+    </nav>
+
+    <div id="main-content" class="main-content">
+        <header class="top-navbar">
+            <div class="navbar-left">
+                <button id="sidebarToggle" class="btn btn-link"><i class="bi bi-list"></i></button>
+                <h4 class="mb-0 page-title">Dashboard</h4>
+            </div>
+            <div class="navbar-right">
+                <div class="theme-switcher dropdown">
+                    <button id="themeToggle" class="btn btn-link theme-toggle" data-bs-toggle="dropdown" aria-expanded="false" title="Theme"><i class="bi bi-palette"></i></button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><h6 class="dropdown-header">Color Theme</h6></li>
+                        <li><a class="dropdown-item theme-option" data-theme="forest" href="#"><span class="theme-swatch" style="background:#2e7d32"></span>Forest<i class="bi bi-check2 d-none"></i></a></li>
+                        <li><a class="dropdown-item theme-option" data-theme="ocean" href="#"><span class="theme-swatch" style="background:#1565c0"></span>Ocean<i class="bi bi-check2 d-none"></i></a></li>
+                        <li><a class="dropdown-item theme-option" data-theme="sunset" href="#"><span class="theme-swatch" style="background:#e65100"></span>Sunset<i class="bi bi-check2 d-none"></i></a></li>
+                        <li><a class="dropdown-item theme-option" data-theme="midnight" href="#"><span class="theme-swatch" style="background:#5e35b1"></span>Midnight<i class="bi bi-check2 d-none"></i></a></li>
+                        <li><a class="dropdown-item theme-option" data-theme="minimal" href="#"><span class="theme-swatch" style="background:#212121"></span>Minimal<i class="bi bi-check2 d-none"></i></a></li>
+                    </ul>
+                </div>
+                <div class="search-box"><input type="text" class="form-control" placeholder="Search..."><i class="bi bi-search"></i></div>
+                <div class="notification-dropdown dropdown">
+                    <button class="btn btn-link notification-btn" data-bs-toggle="dropdown"><i class="bi bi-bell"></i><span class="notification-badge">5</span></button>
+                    <ul class="dropdown-menu dropdown-menu-end notification-menu">
+                        <li><h6 class="dropdown-header">Notifications</h6></li>
+                        <li><a class="dropdown-item" href="#"><i class="bi bi-cart-check"></i> New order received</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="bi bi-person-plus"></i> New customer registered</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item text-center" href="#">View all</a></li>
+                    </ul>
+                </div>
+                <div class="user-dropdown dropdown">
+                    <button class="btn btn-link user-btn" data-bs-toggle="dropdown">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face" alt="User" class="user-avatar">
+                        <span class="user-name d-none d-md-inline">John Doe</span><i class="bi bi-chevron-down"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="profile.html"><i class="bi bi-person"></i> Profile</a></li>
+                        <li><a class="dropdown-item" href="settings.html"><i class="bi bi-gear"></i> Settings</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="login.html" id="logoutBtnTop"><i class="bi bi-box-arrow-left"></i> Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+
+        <main class="page-container">
+            <div class="row g-4 mb-4">
+                <div class="col-12 col-sm-6 col-xl-3">
+                    <div class="stat-card">
+                        <div class="stat-icon bg-primary"><i class="bi bi-currency-dollar"></i></div>
+                        <div class="stat-details"><h3 class="stat-value">$24,562</h3><p class="stat-label">Total Revenue</p><span class="stat-change positive"><i class="bi bi-arrow-up"></i> 12.5%</span></div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-xl-3">
+                    <div class="stat-card">
+                        <div class="stat-icon bg-success"><i class="bi bi-cart3"></i></div>
+                        <div class="stat-details"><h3 class="stat-value">1,234</h3><p class="stat-label">Total Orders</p><span class="stat-change positive"><i class="bi bi-arrow-up"></i> 8.2%</span></div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-xl-3">
+                    <div class="stat-card">
+                        <div class="stat-icon bg-info"><i class="bi bi-people"></i></div>
+                        <div class="stat-details"><h3 class="stat-value">5,678</h3><p class="stat-label">Total Customers</p><span class="stat-change positive"><i class="bi bi-arrow-up"></i> 15.3%</span></div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-xl-3">
+                    <div class="stat-card">
+                        <div class="stat-icon bg-warning"><i class="bi bi-box-seam"></i></div>
+                        <div class="stat-details"><h3 class="stat-value">892</h3><p class="stat-label">Total Products</p><span class="stat-change negative"><i class="bi bi-arrow-down"></i> 2.1%</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-4 mb-4">
+                <div class="col-12 col-lg-8">
+                    <div class="card"><div class="card-header"><h5 class="card-title mb-0">Revenue Overview</h5></div><div class="card-body"><canvas id="revenueChart" height="120"></canvas></div></div>
+                </div>
+                <div class="col-12 col-lg-4">
+                    <div class="card"><div class="card-header"><h5 class="card-title mb-0">Sales by Category</h5></div><div class="card-body"><canvas id="categoryChart" height="200"></canvas></div></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0">Recent Orders</h5>
+                    <a href="orders.html" class="btn btn-sm btn-primary">View All</a>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead><tr><th>Order ID</th><th>Customer</th><th>Product</th><th>Amount</th><th>Status</th><th>Date</th><th>Action</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>#ORD-001</strong></td><td><div class="d-flex align-items-center"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=32&h=32&fit=crop&crop=face" class="rounded-circle me-2 avatar-xs">Sarah Johnson</div></td><td>Wireless Headphones</td><td>$245.99</td><td><span class="badge bg-success">Delivered</span></td><td>Jan 15, 2025</td><td><button class="btn btn-sm btn-outline-primary action-btn" data-bs-toggle="modal" data-bs-target="#orderDetailsModal"><i class="bi bi-eye"></i></button></td></tr>
+                                <tr><td><strong>#ORD-002</strong></td><td><div class="d-flex align-items-center"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=32&h=32&fit=crop&crop=face" class="rounded-circle me-2 avatar-xs">Michael Chen</div></td><td>Smart Watch</td><td>$189.50</td><td><span class="badge bg-warning">Processing</span></td><td>Jan 14, 2025</td><td><button class="btn btn-sm btn-outline-primary action-btn" data-bs-toggle="modal" data-bs-target="#orderDetailsModal"><i class="bi bi-eye"></i></button></td></tr>
+                                <tr><td><strong>#ORD-003</strong></td><td><div class="d-flex align-items-center"><img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=32&h=32&fit=crop&crop=face" class="rounded-circle me-2 avatar-xs">Emily Davis</div></td><td>Laptop Stand</td><td>$79.99</td><td><span class="badge bg-info">Shipped</span></td><td>Jan 13, 2025</td><td><button class="btn btn-sm btn-outline-primary action-btn" data-bs-toggle="modal" data-bs-target="#orderDetailsModal"><i class="bi bi-eye"></i></button></td></tr>
+                                <tr><td><strong>#ORD-004</strong></td><td><div class="d-flex align-items-center"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=32&h=32&fit=crop&crop=face" class="rounded-circle me-2 avatar-xs">James Wilson</div></td><td>USB-C Hub</td><td>$45.00</td><td><span class="badge bg-success">Delivered</span></td><td>Jan 12, 2025</td><td><button class="btn btn-sm btn-outline-primary action-btn" data-bs-toggle="modal" data-bs-target="#orderDetailsModal"><i class="bi bi-eye"></i></button></td></tr>
+                                <tr><td><strong>#ORD-005</strong></td><td><div class="d-flex align-items-center"><img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=32&h=32&fit=crop&crop=face" class="rounded-circle me-2 avatar-xs">Anna Martinez</div></td><td>Mechanical Keyboard</td><td>$159.99</td><td><span class="badge bg-secondary">Pending</span></td><td>Jan 11, 2025</td><td><button class="btn btn-sm btn-outline-primary action-btn" data-bs-toggle="modal" data-bs-target="#orderDetailsModal"><i class="bi bi-eye"></i></button></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div class="modal fade" id="orderDetailsModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header"><h5 class="modal-title">Order Details</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6"><h6>Order Information</h6><p><strong>Order ID:</strong> #ORD-001</p><p><strong>Date:</strong> Jan 15, 2025</p><p><strong>Status:</strong> <span class="badge bg-success">Delivered</span></p></div>
+                        <div class="col-md-6"><h6>Customer Information</h6><p><strong>Name:</strong> Sarah Johnson</p><p><strong>Email:</strong> sarah.johnson@email.com</p><p><strong>Phone:</strong> +1 (555) 123-4567</p></div>
+                    </div>
+                    <hr><h6>Order Items</h6><p><strong>Product:</strong> Wireless Headphones</p><p><strong>Quantity:</strong> 1</p><p><strong>Total:</strong> $245.99</p>
+                </div>
+                <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button><button type="button" class="btn btn-primary">Update Status</button></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="js/mock-data.js"></script>
+    <script src="js/charts.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

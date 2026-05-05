@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - E-commerce Dashboard</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="../public/favicon.svg">
+</head>
+<body>
+    <!-- Sidebar -->
+    <nav id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=40&h=40&fit=crop" alt="Logo" class="logo-img">
+            <span class="logo-text">E-Commerce</span>
+            <button id="sidebarCollapse" class="btn btn-link d-lg-none">
+                <i class="bi bi-x-lg"></i>
+            </button>
+        </div>
+        
+        <ul class="nav flex-column sidebar-nav">
+            <li class="nav-item">
+                <a href="dashboard.html" class="nav-link">
+                    <i class="bi bi-speedometer2"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="products.html" class="nav-link active">
+                    <i class="bi bi-box-seam"></i>
+                    <span>Products</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="orders.html" class="nav-link">
+                    <i class="bi bi-cart3"></i>
+                    <span>Orders</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="customers.html" class="nav-link">
+                    <i class="bi bi-people"></i>
+                    <span>Customers</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="analytics.html" class="nav-link">
+                    <i class="bi bi-graph-up"></i>
+                    <span>Analytics</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="messages.html" class="nav-link">
+                    <i class="bi bi-chat-dots"></i>
+                    <span>Messages</span>
+                    <span class="badge bg-danger ms-auto">3</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="settings.html" class="nav-link">
+                    <i class="bi bi-gear"></i>
+                    <span>Settings</span>
+                </a>
+            </li>
+        </ul>
+        
+        <div class="sidebar-footer">
+            <a href="#" class="nav-link" id="logoutBtn">
+                <i class="bi bi-box-arrow-left"></i>
+                <span>Logout</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div id="main-content" class="main-content">
+        <!-- Top Navbar -->
+        <header class="top-navbar">
+            <div class="navbar-left">
+                <button id="sidebarToggle" class="btn btn-link">
+                    <i class="bi bi-list"></i>
+                </button>
+                <h4 class="mb-0 page-title">Products</h4>
+            </div>
+            
+            <div class="navbar-right">
+                <div class="search-box">
+                    <input type="text" class="form-control" placeholder="Search...">
+                    <i class="bi bi-search"></i>
+                </div>
+                
+                <div class="theme-switcher dropdown">
+                    <button id="themeToggle" class="btn btn-link theme-toggle" data-bs-toggle="dropdown" aria-expanded="false" title="Theme"><i class="bi bi-palette"></i></button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><h6 class="dropdown-header">Color Theme</h6></li>
+                        <li><a class="dropdown-item theme-option" data-theme="forest" href="#"><span class="theme-swatch" style="background:#2e7d32"></span>Forest<i class="bi bi-check2 d-none"></i></a></li>
+                        <li><a class="dropdown-item theme-option" data-theme="ocean" href="#"><span class="theme-swatch" style="background:#1565c0"></span>Ocean<i class="bi bi-check2 d-none"></i></a></li>
+                        <li><a class="dropdown-item theme-option" data-theme="sunset" href="#"><span class="theme-swatch" style="background:#e65100"></span>Sunset<i class="bi bi-check2 d-none"></i></a></li>
+                        <li><a class="dropdown-item theme-option" data-theme="midnight" href="#"><span class="theme-swatch" style="background:#5e35b1"></span>Midnight<i class="bi bi-check2 d-none"></i></a></li>
+                        <li><a class="dropdown-item theme-option" data-theme="minimal" href="#"><span class="theme-swatch" style="background:#212121"></span>Minimal<i class="bi bi-check2 d-none"></i></a></li>
+                    </ul>
+                </div>
+                <div class="notification-dropdown dropdown">
+                    <button class="btn btn-link notification-btn" data-bs-toggle="dropdown">
+                        <i class="bi bi-bell"></i>
+                        <span class="notification-badge">5</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end notification-menu">
+                        <li><h6 class="dropdown-header">Notifications</h6></li>
+                        <li><a class="dropdown-item" href="#"><i class="bi bi-cart-check"></i> New order received</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="bi bi-person-plus"></i> New customer registered</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="bi bi-exclamation-circle"></i> Low stock alert</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item text-center" href="#">View all</a></li>
+                    </ul>
+                </div>
+                
+                <div class="user-dropdown dropdown">
+                    <button class="btn btn-link user-btn" data-bs-toggle="dropdown">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face" alt="User" class="user-avatar">
+                        <span class="user-name d-none d-md-inline">John Doe</span>
+                        <i class="bi bi-chevron-down"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="profile.html"><i class="bi bi-person"></i> Profile</a></li>
+                        <li><a class="dropdown-item" href="settings.html"><i class="bi bi-gear"></i> Settings</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#" id="logoutBtnTop"><i class="bi bi-box-arrow-left"></i> Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+
+        <!-- Page Content -->
+        <main class="page-container">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0">Products</h5>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProductModal">
+                        <i class="bi bi-plus-lg"></i> Add Product
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" id="productSearch" placeholder="Search products...">
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-select" id="productCategory">
+                                <option value="">All Categories</option>
+                                <option value="electronics">Electronics</option>
+                                <option value="clothing">Clothing</option>
+                                <option value="home">Home & Garden</option>
+                                <option value="sports">Sports</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Name</th>
+                                    <th>Category</th>
+                                    <th>Price</th>
+                                    <th>Stock</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=50&h=50&fit=crop" alt="Smartphone" class="product-img"></td>
+                                    <td><strong>Smartphone X Pro</strong></td>
+                                    <td>Electronics</td>
+                                    <td>$899.99</td>
+                                    <td>156</td>
+                                    <td><span class="badge bg-success">In Stock</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary action-btn" title="Edit">
+                                            <i class="bi bi-pencil"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger action-btn" title="Delete">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=50&h=50&fit=crop" alt="Watch" class="product-img"></td>
+                                    <td><strong>Smart Watch Series 5</strong></td>
+                                    <td>Electronics</td>
+                                    <td>$349.99</td>
+                                    <td>89</td>
+                                    <td><span class="badge bg-success">In Stock</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary action-btn" title="Edit">
+                                            <i class="bi bi-pencil"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger action-btn" title="Delete">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=50&h=50&fit=crop" alt="Sneakers" class="product-img"></td>
+                                    <td><strong>Running Sneakers</strong></td>
+                                    <td>Sports</td>
+                                    <td>$129.99</td>
+                                    <td>45</td>
+                                    <td><span class="badge bg-warning">Low Stock</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary action-btn" title="Edit">
+                                            <i class="bi bi-pencil"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger action-btn" title="Delete">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=50&h=50&fit=crop" alt="Chair" class="product-img"></td>
+                                    <td><strong>Ergonomic Office Chair</strong></td>
+                                    <td>Home & Garden</td>
+                                    <td>$299.99</td>
+                                    <td>0</td>
+                                    <td><span class="badge bg-danger">Out of Stock</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary action-btn" title="Edit">
+                                            <i class="bi bi-pencil"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger action-btn" title="Delete">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=50&h=50&fit=crop" alt="Jacket" class="product-img"></td>
+                                    <td><strong>Winter Jacket</strong></td>
+                                    <td>Clothing</td>
+                                    <td>$199.99</td>
+                                    <td>78</td>
+                                    <td><span class="badge bg-success">In Stock</span></td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary action-btn" title="Edit">
+                                            <i class="bi bi-pencil"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger action-btn" title="Delete">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add Product Modal -->
+    <div class="modal fade" id="addProductModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Product</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addProductForm">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Product Name</label>
+                                <input type="text" class="form-control" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Category</label>
+                                <select class="form-select" required>
+                                    <option value="">Select Category</option>
+                                    <option value="electronics">Electronics</option>
+                                    <option value="clothing">Clothing</option>
+                                    <option value="home">Home & Garden</option>
+                                    <option value="sports">Sports</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Price</label>
+                                <input type="number" class="form-control" step="0.01" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Stock</label>
+                                <input type="number" class="form-control" required>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">Description</label>
+                                <textarea class="form-control" rows="3"></textarea>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">Image URL</label>
+                                <input type="url" class="form-control" placeholder="https://images.unsplash.com/...">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="saveProductBtn">Save Product</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/mock-data.js"></script>
+    <script src="js/charts.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

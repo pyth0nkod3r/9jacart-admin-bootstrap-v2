@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customers - E-commerce Dashboard</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="../public/favicon.svg">
+</head>
+<body>
+    <!-- Sidebar -->
+    <nav id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=40&h=40&fit=crop" alt="Logo" class="logo-img">
+            <span class="logo-text">E-Commerce</span>
+            <button id="sidebarCollapse" class="btn btn-link d-lg-none">
+                <i class="bi bi-x-lg"></i>
+            </button>
+        </div>
+        
+        <ul class="nav flex-column sidebar-nav">
+            <li class="nav-item">
+                <a href="dashboard.html" class="nav-link">
+                    <i class="bi bi-speedometer2"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="products.html" class="nav-link">
+                    <i class="bi bi-box-seam"></i>
+                    <span>Products</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="orders.html" class="nav-link">
+                    <i class="bi bi-cart3"></i>
+                    <span>Orders</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="customers.html" class="nav-link active">
+                    <i class="bi bi-people"></i>
+                    <span>Customers</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="analytics.html" class="nav-link">
+                    <i class="bi bi-graph-up"></i>
+                    <span>Analytics</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="messages.html" class="nav-link">
+                    <i class="bi bi-chat-dots"></i>
+                    <span>Messages</span>
+                    <span class="badge bg-danger ms-auto">3</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="settings.html" class="nav-link">
+                    <i class="bi bi-gear"></i>
+                    <span>Settings</span>
+                </a>
+            </li>
+        </ul>
+        
+        <div class="sidebar-footer">
+            <a href="#" class="nav-link" id="logoutBtn">
+                <i class="bi bi-box-arrow-left"></i>
+                <span>Logout</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div id="main-content" class="main-content">
+        <!-- Top Navbar -->
+        <header class="top-navbar">
+            <div class="navbar-left">
+                <button id="sidebarToggle" class="btn btn-link">
+                    <i class="bi bi-list"></i>
+                </button>
+                <h4 class="mb-0 page-title">Customers</h4>
+            </div>
+            
+            <div class="navbar-right">
+                <div class="search-box">
+                    <input type="text" class="form-control" placeholder="Search...">
+                    <i class="bi bi-search"></i>
+                </div>
+                
+                <div class="theme-switcher dropdown">
+                    <button id="themeToggle" class="btn btn-link theme-toggle" data-bs-toggle="dropdown" aria-expanded="false" title="Theme"><i class="bi bi-palette"></i></button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><h6 class="dropdown-header">Color Theme</h6></li>
+                        <li><a class="dropdown-item theme-option" data-theme="forest" href="#"><span class="theme-swatch" style="background:#2e7d32"></span>Forest<i class="bi bi-check2 d-none"></i></a></li>
+                        <li><a class="dropdown-item theme-option" data-theme="ocean" href="#"><span class="theme-swatch" style="background:#1565c0"></span>Ocean<i class="bi bi-check2 d-none"></i></a></li>
+                        <li><a class="dropdown-item theme-option" data-theme="sunset" href="#"><span class="theme-swatch" style="background:#e65100"></span>Sunset<i class="bi bi-check2 d-none"></i></a></li>
+                        <li><a class="dropdown-item theme-option" data-theme="midnight" href="#"><span class="theme-swatch" style="background:#5e35b1"></span>Midnight<i class="bi bi-check2 d-none"></i></a></li>
+                        <li><a class="dropdown-item theme-option" data-theme="minimal" href="#"><span class="theme-swatch" style="background:#212121"></span>Minimal<i class="bi bi-check2 d-none"></i></a></li>
+                    </ul>
+                </div>
+                <div class="notification-dropdown dropdown">
+                    <button class="btn btn-link notification-btn" data-bs-toggle="dropdown">
+                        <i class="bi bi-bell"></i>
+                        <span class="notification-badge">5</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end notification-menu">
+                        <li><h6 class="dropdown-header">Notifications</h6></li>
+                        <li><a class="dropdown-item" href="#"><i class="bi bi-cart-check"></i> New order received</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="bi bi-person-plus"></i> New customer registered</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="bi bi-exclamation-circle"></i> Low stock alert</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item text-center" href="#">View all</a></li>
+                    </ul>
+                </div>
+                
+                <div class="user-dropdown dropdown">
+                    <button class="btn btn-link user-btn" data-bs-toggle="dropdown">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face" alt="User" class="user-avatar">
+                        <span class="user-name d-none d-md-inline">John Doe</span>
+                        <i class="bi bi-chevron-down"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="profile.html"><i class="bi bi-person"></i> Profile</a></li>
+                        <li><a class="dropdown-item" href="settings.html"><i class="bi bi-gear"></i> Settings</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#" id="logoutBtnTop"><i class="bi bi-box-arrow-left"></i> Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+
+        <!-- Page Content -->
+        <main class="page-container">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0">Customers</h5>
+                    <button class="btn btn-primary">
+                        <i class="bi bi-plus-lg"></i> Add Customer
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" id="customerSearch" placeholder="Search customers...">
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-select" id="customerSort">
+                                <option value="name">Sort by Name</option>
+                                <option value="orders">Sort by Orders</option>
+                                <option value="spent">Sort by Amount Spent</option>
+                                <option value="joined">Sort by Join Date</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Customer</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Orders</th>
+                                    <th>Spent</th>
+                                    <th>Joined</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=40&h=40&fit=crop&crop=face" alt="Customer" class="rounded-circle me-2" class="rounded-circle me-2 avatar-sm">
+                                            <strong>Sarah Johnson</strong>
+                                        </div>
+                                    </td>
+                                    <td>sarah.johnson@email.com</td>
+                                    <td>+1 (555) 123-4567</td>
+                                    <td>12</td>
+                                    <td>$2,456.78</td>
+                                    <td>Jan 5, 2024</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary action-btn" title="View">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-secondary action-btn" title="Edit">
+                                            <i class="bi bi-pencil"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face" alt="Customer" class="rounded-circle me-2" class="rounded-circle me-2 avatar-sm">
+                                            <strong>Michael Chen</strong>
+                                        </div>
+                                    </td>
+                                    <td>michael.chen@email.com</td>
+                                    <td>+1 (555) 234-5678</td>
+                                    <td>8</td>
+                                    <td>$1,892.45</td>
+                                    <td>Feb 12, 2024</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary action-btn" title="View">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-secondary action-btn" title="Edit">
+                                            <i class="bi bi-pencil"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=40&h=40&fit=crop&crop=face" alt="Customer" class="rounded-circle me-2" class="rounded-circle me-2 avatar-sm">
+                                            <strong>Emily Davis</strong>
+                                        </div>
+                                    </td>
+                                    <td>emily.davis@email.com</td>
+                                    <td>+1 (555) 345-6789</td>
+                                    <td>15</td>
+                                    <td>$3,567.90</td>
+                                    <td>Mar 8, 2024</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary action-btn" title="View">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-secondary action-btn" title="Edit">
+                                            <i class="bi bi-pencil"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=40&h=40&fit=crop&crop=face" alt="Customer" class="rounded-circle me-2" class="rounded-circle me-2 avatar-sm">
+                                            <strong>James Wilson</strong>
+                                        </div>
+                                    </td>
+                                    <td>james.wilson@email.com</td>
+                                    <td>+1 (555) 456-7890</td>
+                                    <td>6</td>
+                                    <td>$987.65</td>
+                                    <td>Apr 22, 2024</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary action-btn" title="View">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-secondary action-btn" title="Edit">
+                                            <i class="bi bi-pencil"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=40&h=40&fit=crop&crop=face" alt="Customer" class="rounded-circle me-2" class="rounded-circle me-2 avatar-sm">
+                                            <strong>Amanda Brown</strong>
+                                        </div>
+                                    </td>
+                                    <td>amanda.brown@email.com</td>
+                                    <td>+1 (555) 567-8901</td>
+                                    <td>20</td>
+                                    <td>$5,234.12</td>
+                                    <td>May 15, 2024</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary action-btn" title="View">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-secondary action-btn" title="Edit">
+                                            <i class="bi bi-pencil"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face" alt="Customer" class="rounded-circle me-2" class="rounded-circle me-2 avatar-sm">
+                                            <strong>Robert Taylor</strong>
+                                        </div>
+                                    </td>
+                                    <td>robert.taylor@email.com</td>
+                                    <td>+1 (555) 678-9012</td>
+                                    <td>4</td>
+                                    <td>$567.89</td>
+                                    <td>Jun 3, 2024</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary action-btn" title="View">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-secondary action-btn" title="Edit">
+                                            <i class="bi bi-pencil"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- Pagination -->
+                    <nav aria-label="Customer pagination" class="mt-4">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#">Previous</a>
+                            </li>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="js/mock-data.js"></script>
+    <script src="js/charts.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
