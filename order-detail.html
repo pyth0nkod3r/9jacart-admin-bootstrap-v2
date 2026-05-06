@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Order Detail - AdminHub</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/guard.js"></script>
+    <script src="js/layout.js"></script>
+</head>
+
+<body data-route="orders">
+    <div id="layout-root"></div>
+    <div id="main-content" class="main-content">
+        <main class="page-container">
+            <div class="d-flex align-items-center mb-4">
+                <a href="orders.html" class="btn btn-outline-secondary me-3">&larr; Back</a>
+                <h3 class="mb-0">Order Details</h3>
+            </div>
+
+            <div id="errorState" class="text-center text-danger d-none my-5">
+                <i class="bi bi-exclamation-triangle fs-1"></i>
+                <p id="errorMessage">Failed to load order details.</p>
+                <a id="retryBtn" class="btn btn-outline-primary">Try Again</a>
+            </div>
+
+            <div id="loadingState" class="text-center my-5 d-none">
+                <div class="spinner-border text-primary" role="status"></div>
+            </div>
+
+            <div id="orderDetail" class="d-none">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 id="orderNo" class="card-title">Order</h5>
+                        <p id="orderMeta" class="text-muted small"></p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">Items</div>
+                    <div class="card-body" id="itemsContainer"></div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/mock-data.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        (function () {
+            function getQueryParam(name) {
+                var params = new URLSearchParams(window.location.search);
+                return params.get(name);
+            }
+            var orderNo = getQueryParam('orderNo');
+            var els = {
+                loadingState: document.getElementById('loadingState'),
+                errorState: document.getElementById('errorState'),
+                errorMessage: document.getElementById('errorMessage'),
+                retryBtn: document.getElementById('retryBtn'),
+                orderDetail: document.getElementById('orderDetail'),
+                orderNoEl: document.getElementById('orderNo'),
+                orderMeta: document.getElementById('orderMeta'),
+                itemsContainer: document.getElementById('itemsContainer')
+            };
+
+            function showLoading(v) { els.loadingState.classList.toggle('d-none', !v); }
+            function showError(msg) { els.errorMessage.textContent = msg || 'Failed to load order details.'; els.errorState.classList.toggle('d-none', !msg); }
+
+            async function load() {
+                if (!orderNo) { showError('Missing order number'); return; }
+                showError(null); showLoading(true); els.orderDetail.classList.add('d-none');
+                try {
+                    var summary = await window.api.getOrdersSummary();
+                    var itemsResp = await window.api.getOrderItems(orderNo);
+                    els.orderNoEl.textContent = orderNo;
+                    els.orderMeta.textContent = '';
+                    // render items
+                    els.itemsContainer.innerHTML = '';
+                    if (itemsResp && itemsResp.items && itemsResp.items.length) {
+                        itemsResp.items.forEach(function (it) {
+                            var row = document.createElement('div');
+                            row.className = 'd-flex gap-3 align-items-center mb-3';
+                            row.innerHTML = '<div style="width:56px;height:56px;border-radius:6px;background:#f6f6f6;overflow:hidden"><img src="' + (it.productImages && it.productImages[0] || '') + '" style="width:100%;height:100%;object-fit:cover"></div><div class="flex-1"><div class="d-flex justify-content-between"><div><strong>' + (it.productName || '') + '</strong><div class="text-muted small">Qty: ' + (it.quantity || '') + '</div></div><div class="text-end"><div class="text-muted">' + (new Intl.NumberFormat('en-NG', { style: 'currency', currency: 'NGN' }).format(it.price || 0)) + '</div></div></div></div>';
+                            els.itemsContainer.appendChild(row);
+                        });
+                    } else {
+                        els.itemsContainer.innerHTML = '<p class="text-center text-muted">No items found for this order.</p>';
+                    }
+
+                    els.orderDetail.classList.remove('d-none');
+                } catch (err) {
+                    console.error(err);
+                    showError('Failed to load order details. Please try again.');
+                } finally { showLoading(false); }
+            }
+
+            if (els.retryBtn) els.retryBtn.addEventListener('click', load);
+            load();
+        })();
+    </script>
+</body>
+
+</html>

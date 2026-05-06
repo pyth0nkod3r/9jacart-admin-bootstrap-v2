@@ -26,9 +26,12 @@
         <main class="page-container">
             <div class="d-flex align-items-center justify-content-between mb-4">
                 <h1 class="h3 mb-0">Business Categories</h1>
-                <a href="business-category-create.html" class="btn btn-primary" id="addCategoryBtn">
-                    <i class="bi bi-plus-lg me-1"></i> Add Category
-                </a>
+                <div class="d-flex align-items-center gap-3">
+                    <span class="text-muted small" id="totalCategories">0 categories</span>
+                    <a href="business-category-create.html" class="btn btn-primary" id="addCategoryBtn">
+                        <i class="bi bi-plus-lg me-1"></i> Add Category
+                    </a>
+                </div>
             </div>
 
             <div class="card">
@@ -71,6 +74,12 @@
                         </div>
 
                         <div id="categoriesContainer" style="max-height: 60vh; overflow-y: auto;"></div>
+
+                        <!-- Pagination -->
+                        <div class="d-flex align-items-center justify-content-between mt-4 pt-3 border-top">
+                            <span class="text-muted small" id="paginationInfo"></span>
+                            <div class="btn-group" id="paginationControls"></div>
+                        </div>
                     </div>
                 </div>
             </div>

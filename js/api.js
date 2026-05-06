@@ -406,7 +406,7 @@
             });
         }
         var result = paginate(filtered, page || 1, perPage || 10);
-        return { tickets: result.data, pagination: result.pagination };
+        return ok({ data: result.data, pagination: result.pagination });
     }
 
     async function getTicketMessages(ticketId) {

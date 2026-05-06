@@ -276,7 +276,7 @@
     // Contacts Page
     window.initContactsPage = function () {
         var PAGE_SIZE = 5;
-        var state = { loading: false, error: null, contacts: [], pagination: { page: 1, totalPages: 1, total: 0 }, exporting: false };
+        var state = { loading: false, error: null, contacts: [], pagination: { currentPage: 1, totalPages: 1, totalItems: 0 }, exporting: false };
         var els = {};
 
         function cacheElements() {
@@ -295,27 +295,27 @@
         async function loadPage(page) {
             state.loading = true; state.error = null; render();
             try {
-                var response = await window.api.getContacts({ page: page || 1, perPage: PAGE_SIZE });
+                var response = await window.api.getContacts(page || 1, PAGE_SIZE);
                 if (response && response.data) {
                     state.contacts = response.data;
-                    state.pagination = response.pagination || { page: 1, totalPages: 1, total: 0 };
-                } else { state.contacts = []; state.pagination = { page: 1, totalPages: 1, total: 0 }; }
+                    state.pagination = response.pagination || { currentPage: 1, totalPages: 1, totalItems: 0 };
+                } else { state.contacts = []; state.pagination = { currentPage: 1, totalPages: 1, totalItems: 0 }; }
             } catch (err) {
                 console.error('Failed to load contacts:', err);
                 state.error = 'Failed to load contacts. Please try again.';
-                state.contacts = []; state.pagination = { page: 1, totalPages: 1, total: 0 };
+                state.contacts = []; state.pagination = { currentPage: 1, totalPages: 1, totalItems: 0 };
             } finally { state.loading = false; render(); }
         }
 
         function render() {
-            if (els.loadingState) els.loadingState.style.display = state.loading ? 'block' : 'none';
+            if (els.loadingState) els.loadingState.classList.toggle('d-none', !state.loading);
             if (els.errorState) {
-                if (state.error) { if (els.errorMessage) els.errorMessage.textContent = state.error; els.errorState.style.display = 'block'; }
-                else { els.errorState.style.display = 'none'; }
+                if (state.error) { if (els.errorMessage) els.errorMessage.textContent = state.error; els.errorState.classList.remove('d-none'); }
+                else { els.errorState.classList.add('d-none'); }
             }
-            if (els.emptyState) els.emptyState.style.display = (!state.loading && !state.error && state.contacts.length === 0) ? 'block' : 'none';
-            if (els.contactsList) els.contactsList.style.display = (!state.loading && !state.error && state.contacts.length > 0) ? 'block' : 'none';
-            if (els.totalContacts) els.totalContacts.textContent = state.pagination.total + ' total contacts';
+            if (els.emptyState) els.emptyState.classList.toggle('d-none', !(!state.loading && !state.error && state.contacts.length === 0));
+            if (els.contactsList) els.contactsList.classList.toggle('d-none', !(!state.loading && !state.error && state.contacts.length > 0));
+            if (els.totalContacts) els.totalContacts.textContent = state.pagination.totalItems + ' total contacts';
 
             if (els.contactsContainer) {
                 els.contactsContainer.innerHTML = '';
@@ -332,7 +332,7 @@
             }
 
             if (els.paginationInfo && els.paginationControls) {
-                var totalPages = state.pagination.totalPages, currentPage = state.pagination.page, total = state.pagination.total;
+                var totalPages = state.pagination.totalPages, currentPage = state.pagination.currentPage, total = state.pagination.totalItems;
                 els.paginationInfo.textContent = totalPages > 1 ? 'Page ' + currentPage + ' of ' + totalPages + ' (' + total + ' total)' : 'Showing all ' + total + ' contact' + (total !== 1 ? 's' : '');
                 els.paginationControls.innerHTML = '';
                 if (totalPages > 1) {
@@ -393,7 +393,7 @@
     // Waitlist Page
     window.initWaitlistPage = function () {
         var PAGE_SIZE = 5;
-        var state = { loading: false, error: null, waitlist: [], pagination: { page: 1, totalPages: 1, total: 0 }, exporting: false };
+        var state = { loading: false, error: null, waitlist: [], pagination: { currentPage: 1, totalPages: 1, totalItems: 0 }, exporting: false };
         var els = {};
 
         function cacheElements() {
@@ -412,27 +412,27 @@
         async function loadPage(page) {
             state.loading = true; state.error = null; render();
             try {
-                var response = await window.api.getWaitlist({ page: page || 1, perPage: PAGE_SIZE });
+                var response = await window.api.getWaitlist(page || 1, PAGE_SIZE);
                 if (response && response.data) {
                     state.waitlist = response.data;
-                    state.pagination = response.pagination || { page: 1, totalPages: 1, total: 0 };
-                } else { state.waitlist = []; state.pagination = { page: 1, totalPages: 1, total: 0 }; }
+                    state.pagination = response.pagination || { currentPage: 1, totalPages: 1, totalItems: 0 };
+                } else { state.waitlist = []; state.pagination = { currentPage: 1, totalPages: 1, totalItems: 0 }; }
             } catch (err) {
                 console.error('Failed to load waitlist:', err);
                 state.error = 'Failed to load waitlist. Please try again.';
-                state.waitlist = []; state.pagination = { page: 1, totalPages: 1, total: 0 };
+                state.waitlist = []; state.pagination = { currentPage: 1, totalPages: 1, totalItems: 0 };
             } finally { state.loading = false; render(); }
         }
 
         function render() {
-            if (els.loadingState) els.loadingState.style.display = state.loading ? 'block' : 'none';
+            if (els.loadingState) els.loadingState.classList.toggle('d-none', !state.loading);
             if (els.errorState) {
-                if (state.error) { if (els.errorMessage) els.errorMessage.textContent = state.error; els.errorState.style.display = 'block'; }
-                else { els.errorState.style.display = 'none'; }
+                if (state.error) { if (els.errorMessage) els.errorMessage.textContent = state.error; els.errorState.classList.remove('d-none'); }
+                else { els.errorState.classList.add('d-none'); }
             }
-            if (els.emptyState) els.emptyState.style.display = (!state.loading && !state.error && state.waitlist.length === 0) ? 'block' : 'none';
-            if (els.waitlistList) els.waitlistList.style.display = (!state.loading && !state.error && state.waitlist.length > 0) ? 'block' : 'none';
-            if (els.totalWaitlist) els.totalWaitlist.textContent = state.pagination.total + ' vendor applications';
+            if (els.emptyState) els.emptyState.classList.toggle('d-none', !(!state.loading && !state.error && state.waitlist.length === 0));
+            if (els.waitlistList) els.waitlistList.classList.toggle('d-none', !(!state.loading && !state.error && state.waitlist.length > 0));
+            if (els.totalWaitlist) els.totalWaitlist.textContent = state.pagination.totalItems + ' vendor applications';
 
             if (els.waitlistContainer) {
                 els.waitlistContainer.innerHTML = '';
@@ -451,7 +451,7 @@
             }
 
             if (els.paginationInfo && els.paginationControls) {
-                var totalPages = state.pagination.totalPages, currentPage = state.pagination.page, total = state.pagination.total;
+                var totalPages = state.pagination.totalPages, currentPage = state.pagination.currentPage, total = state.pagination.totalItems;
                 els.paginationInfo.textContent = totalPages > 1 ? 'Page ' + currentPage + ' of ' + totalPages + ' (' + total + ' total)' : 'Showing all ' + total + ' entr' + (total !== 1 ? 'ies' : 'y');
                 els.paginationControls.innerHTML = '';
                 if (totalPages > 1) {
@@ -581,15 +581,15 @@
 
         function renderError() {
             if (els.errorAlert) {
-                if (state.error) { if (els.errorMessage) els.errorMessage.textContent = state.error; els.errorAlert.style.display = 'block'; }
-                else { els.errorAlert.style.display = 'none'; }
+                if (state.error) { if (els.errorMessage) els.errorMessage.textContent = state.error; els.errorAlert.classList.remove('d-none'); }
+                else { els.errorAlert.classList.add('d-none'); }
             }
         }
 
         function renderLoadError() {
             if (els.loadErrorAlert) {
-                if (state.loadError) { if (els.loadErrorMessage) els.loadErrorMessage.textContent = state.loadError; els.loadErrorAlert.style.display = 'block'; }
-                else { els.loadErrorAlert.style.display = 'none'; }
+                if (state.loadError) { if (els.loadErrorMessage) els.loadErrorMessage.textContent = state.loadError; els.loadErrorAlert.classList.remove('d-none'); }
+                else { els.loadErrorAlert.classList.add('d-none'); }
             }
         }
 
@@ -651,8 +651,8 @@
 
         function renderError() {
             if (els.errorAlert) {
-                if (state.error) { if (els.errorMessage) els.errorMessage.textContent = state.error; els.errorAlert.style.display = 'block'; }
-                else { els.errorAlert.style.display = 'none'; }
+                if (state.error) { if (els.errorMessage) els.errorMessage.textContent = state.error; els.errorAlert.classList.remove('d-none'); }
+                else { els.errorAlert.classList.add('d-none'); }
             }
         }
 
@@ -715,8 +715,8 @@
 
         function renderError() {
             if (els.errorAlert) {
-                if (state.error) { if (els.errorMessage) els.errorMessage.textContent = state.error; els.errorAlert.style.display = 'block'; }
-                else { els.errorAlert.style.display = 'none'; }
+                if (state.error) { if (els.errorMessage) els.errorMessage.textContent = state.error; els.errorAlert.classList.remove('d-none'); }
+                else { els.errorAlert.classList.add('d-none'); }
             }
         }
 
@@ -730,7 +730,7 @@
     // Vendor Signups Page
     window.initVendorSignupsPage = function () {
         var PAGE_SIZE = 5;
-        var state = { loading: false, error: null, signups: [], pagination: { page: 1, totalPages: 1, total: 0 } };
+        var state = { loading: false, error: null, signups: [], pagination: { currentPage: 1, totalPages: 1, totalItems: 0 } };
         var els = {};
 
         function cacheElements() {
@@ -749,42 +749,54 @@
             state.loading = true; state.error = null; render();
             try {
                 var response = await window.api.getVendorSignups(page || 1, PAGE_SIZE);
+                console.debug('[debug] getVendorSignups response:', response && response.pagination ? response.pagination : '(no pagination)', 'items:', (response && response.data && response.data.length) || 0);
                 if (response && response.data) {
                     state.signups = response.data;
-                    state.pagination = response.pagination || { page: 1, totalPages: 1, total: 0 };
-                } else { state.signups = []; state.pagination = { page: 1, totalPages: 1, total: 0 }; }
+                    state.pagination = response.pagination || { currentPage: 1, totalPages: 1, totalItems: 0 };
+                } else { state.signups = []; state.pagination = { currentPage: 1, totalPages: 1, totalItems: 0 }; }
             } catch (err) {
                 console.error('Failed to load vendor signups:', err);
                 state.error = 'Failed to load vendor signups. Please try again.';
-                state.signups = []; state.pagination = { page: 1, totalPages: 1, total: 0 };
+                state.signups = []; state.pagination = { currentPage: 1, totalPages: 1, totalItems: 0 };
             } finally { state.loading = false; render(); }
         }
 
         function render() {
-            if (els.loadingState) els.loadingState.style.display = state.loading ? 'block' : 'none';
+            if (els.loadingState) els.loadingState.classList.toggle('d-none', !state.loading);
             if (els.errorState) {
-                if (state.error) { if (els.errorMessage) els.errorMessage.textContent = state.error; els.errorState.style.display = 'block'; }
-                else { els.errorState.style.display = 'none'; }
+                if (state.error) { if (els.errorMessage) els.errorMessage.textContent = state.error; els.errorState.classList.remove('d-none'); }
+                else { els.errorState.classList.add('d-none'); }
             }
-            if (els.emptyState) els.emptyState.style.display = (!state.loading && !state.error && state.signups.length === 0) ? 'block' : 'none';
-            if (els.signupsList) els.signupsList.style.display = (!state.loading && !state.error && state.signups.length > 0) ? 'block' : 'none';
-            if (els.totalSignups) els.totalSignups.textContent = state.pagination.total + ' vendor applications';
+            if (els.emptyState) els.emptyState.classList.toggle('d-none', !(!state.loading && !state.error && state.signups.length === 0));
+            if (els.signupsList) els.signupsList.classList.toggle('d-none', !(!state.loading && !state.error && state.signups.length > 0));
+            if (els.totalSignups) els.totalSignups.textContent = (state.pagination.totalItems || 0) + ' vendor applications';
 
             if (els.signupsContainer) {
                 els.signupsContainer.innerHTML = '';
-                state.signups.forEach(function (signup) {
-                    var div = document.createElement('div');
-                    div.className = 'd-flex align-items-center justify-content-between p-4 rounded border mb-3';
-                    div.style.cssText = 'background-color: var(--card); border-color: var(--border);';
-                    var statusClass = signup.isApproved === '1' ? 'bg-success' : (signup.isSuspended === '1' ? 'bg-danger' : 'bg-warning');
-                    var statusText = signup.isApproved === '1' ? 'Active' : (signup.isSuspended === '1' ? 'Suspended' : 'Pending');
-                    div.innerHTML = '<div class="flex-1"><div class="d-flex align-items-start gap-3"><div class="flex-1"><div class="d-flex align-items-center gap-2 mb-1"><h6 class="mb-0">' + escapeHtml(signup.businessName || 'N/A') + '</h6><span class="badge ' + statusClass + '">' + statusText + '</span></div><p class="text-muted small mb-1">' + escapeHtml(signup.fullName || 'N/A') + '</p><p class="text-muted small mb-0">' + escapeHtml(signup.emailAddress || 'N/A') + '</p></div><div class="d-none d-md-block text-end"><p class="text-muted small mb-0">Joined</p><p class="small fw-medium mb-0">' + formatDate(signup.createdAt) + '</p></div></div></div><div class="ms-3"><a href="vendor-signup-detail.html?id=' + escapeHtml(signup.id) + '" class="btn btn-sm btn-outline-primary"><i class="bi bi-eye me-1"></i> View</a></div>';
-                    els.signupsContainer.appendChild(div);
-                });
+                try {
+                    state.signups.forEach(function (signup) {
+                        var div = document.createElement('div');
+                        div.className = 'd-flex align-items-center justify-content-between p-4 rounded border mb-3';
+                        div.style.cssText = 'background-color: var(--card); border-color: var(--border);';
+                        var statusClass = signup.isApproved === '1' ? 'bg-success' : (signup.isSuspended === '1' ? 'bg-danger' : 'bg-warning');
+                        var statusText = signup.isApproved === '1' ? 'Active' : (signup.isSuspended === '1' ? 'Suspended' : 'Pending');
+                        div.innerHTML = '<div class="flex-1"><div class="d-flex align-items-start gap-3"><div class="flex-1"><div class="d-flex align-items-center gap-2 mb-1"><h6 class="mb-0">' + escapeHtml(signup.businessName || 'N/A') + '</h6><span class="badge ' + statusClass + '">' + statusText + '</span></div><p class="text-muted small mb-1">' + escapeHtml(signup.fullName || 'N/A') + '</p><p class="text-muted small mb-0">' + escapeHtml(signup.emailAddress || 'N/A') + '</p></div><div class="d-none d-md-block text-end"><p class="text-muted small mb-0">Joined</p><p class="small fw-medium mb-0">' + formatDate(signup.createdAt) + '</p></div></div></div><div class="ms-3"><a href="vendor-signup-detail.html?id=' + escapeHtml(signup.id) + '" class="btn btn-sm btn-outline-primary"><i class="bi bi-eye me-1"></i> View</a></div>';
+                        els.signupsContainer.appendChild(div);
+                    });
+                } catch (e) {
+                    console.error('[debug] error rendering signups:', e, 'state.signups:', state.signups);
+                    // show error state so user sees something
+                    state.error = 'Failed to render vendor signups';
+                }
+                // If items were rendered, ensure first item is scrolled into view for users
+                try {
+                    var first = els.signupsContainer && els.signupsContainer.firstElementChild;
+                    if (first) first.scrollIntoView({ behavior: 'auto', block: 'center' });
+                } catch (e) { /* ignore scroll errors */ }
             }
 
             if (els.paginationInfo && els.paginationControls) {
-                var totalPages = state.pagination.totalPages, currentPage = state.pagination.page, total = state.pagination.total;
+                var totalPages = state.pagination.totalPages, currentPage = state.pagination.currentPage, total = state.pagination.totalItems;
                 els.paginationInfo.textContent = totalPages > 1 ? 'Page ' + currentPage + ' of ' + totalPages + ' (' + total + ' total)' : 'Showing all ' + total + ' vendor' + (total !== 1 ? 's' : '');
                 els.paginationControls.innerHTML = '';
                 if (totalPages > 1) {
@@ -811,7 +823,7 @@
     // Buyer Signups Page
     window.initBuyerSignupsPage = function () {
         var PAGE_SIZE = 5;
-        var state = { loading: false, error: null, signups: [], pagination: { page: 1, totalPages: 1, total: 0 } };
+        var state = { loading: false, error: null, signups: [], pagination: { currentPage: 1, totalPages: 1, totalItems: 0 } };
         var els = {};
 
         function cacheElements() {
@@ -832,24 +844,24 @@
                 var response = await window.api.getBuyerSignups(page || 1, PAGE_SIZE);
                 if (response && response.data) {
                     state.signups = response.data;
-                    state.pagination = response.pagination || { page: 1, totalPages: 1, total: 0 };
-                } else { state.signups = []; state.pagination = { page: 1, totalPages: 1, total: 0 }; }
+                    state.pagination = response.pagination || { currentPage: 1, totalPages: 1, totalItems: 0 };
+                } else { state.signups = []; state.pagination = { currentPage: 1, totalPages: 1, totalItems: 0 }; }
             } catch (err) {
                 console.error('Failed to load buyer signups:', err);
                 state.error = 'Failed to load buyer signups. Please try again.';
-                state.signups = []; state.pagination = { page: 1, totalPages: 1, total: 0 };
+                state.signups = []; state.pagination = { currentPage: 1, totalPages: 1, totalItems: 0 };
             } finally { state.loading = false; render(); }
         }
 
         function render() {
-            if (els.loadingState) els.loadingState.style.display = state.loading ? 'block' : 'none';
+            if (els.loadingState) els.loadingState.classList.toggle('d-none', !state.loading);
             if (els.errorState) {
-                if (state.error) { if (els.errorMessage) els.errorMessage.textContent = state.error; els.errorState.style.display = 'block'; }
-                else { els.errorState.style.display = 'none'; }
+                if (state.error) { if (els.errorMessage) els.errorMessage.textContent = state.error; els.errorState.classList.remove('d-none'); }
+                else { els.errorState.classList.add('d-none'); }
             }
-            if (els.emptyState) els.emptyState.style.display = (!state.loading && !state.error && state.signups.length === 0) ? 'block' : 'none';
-            if (els.signupsList) els.signupsList.style.display = (!state.loading && !state.error && state.signups.length > 0) ? 'block' : 'none';
-            if (els.totalSignups) els.totalSignups.textContent = state.pagination.total + ' buyer signups';
+            if (els.emptyState) els.emptyState.classList.toggle('d-none', !(!state.loading && !state.error && state.signups.length === 0));
+            if (els.signupsList) els.signupsList.classList.toggle('d-none', !(!state.loading && !state.error && state.signups.length > 0));
+            if (els.totalSignups) els.totalSignups.textContent = state.pagination.totalItems + ' buyer signups';
 
             if (els.signupsContainer) {
                 els.signupsContainer.innerHTML = '';
@@ -865,7 +877,7 @@
             }
 
             if (els.paginationInfo && els.paginationControls) {
-                var totalPages = state.pagination.totalPages, currentPage = state.pagination.page, total = state.pagination.total;
+                var totalPages = state.pagination.totalPages, currentPage = state.pagination.currentPage, total = state.pagination.totalItems;
                 els.paginationInfo.textContent = totalPages > 1 ? 'Page ' + currentPage + ' of ' + totalPages + ' (' + total + ' total)' : 'Showing all ' + total + ' buyer' + (total !== 1 ? 's' : '');
                 els.paginationControls.innerHTML = '';
                 if (totalPages > 1) {
@@ -892,7 +904,7 @@
     // Business Categories Page
     window.initBusinessCategoriesPage = function () {
         var PAGE_SIZE = 10;
-        var state = { loading: false, error: null, categories: [], pagination: { page: 1, totalPages: 1, total: 0 } };
+        var state = { loading: false, error: null, categories: [], pagination: { currentPage: 1, totalPages: 1, totalItems: 0 } };
         var els = {};
 
         function cacheElements() {
@@ -913,24 +925,24 @@
                 var response = await window.api.getBusinessCategories();
                 if (response && response.data) {
                     state.categories = response.data;
-                    state.pagination = { page: 1, totalPages: 1, total: response.data.length };
-                } else { state.categories = []; state.pagination = { page: 1, totalPages: 1, total: 0 }; }
+                    state.pagination = { currentPage: 1, totalPages: 1, totalItems: response.data.length };
+                } else { state.categories = []; state.pagination = { currentPage: 1, totalPages: 1, totalItems: 0 }; }
             } catch (err) {
                 console.error('Failed to load business categories:', err);
                 state.error = 'Failed to load business categories. Please try again.';
-                state.categories = []; state.pagination = { page: 1, totalPages: 1, total: 0 };
+                state.categories = []; state.pagination = { currentPage: 1, totalPages: 1, totalItems: 0 };
             } finally { state.loading = false; render(); }
         }
 
         function render() {
-            if (els.loadingState) els.loadingState.style.display = state.loading ? 'block' : 'none';
+            if (els.loadingState) els.loadingState.classList.toggle('d-none', !state.loading);
             if (els.errorState) {
-                if (state.error) { if (els.errorMessage) els.errorMessage.textContent = state.error; els.errorState.style.display = 'block'; }
-                else { els.errorState.style.display = 'none'; }
+                if (state.error) { if (els.errorMessage) els.errorMessage.textContent = state.error; els.errorState.classList.remove('d-none'); }
+                else { els.errorState.classList.add('d-none'); }
             }
-            if (els.emptyState) els.emptyState.style.display = (!state.loading && !state.error && state.categories.length === 0) ? 'block' : 'none';
-            if (els.categoriesList) els.categoriesList.style.display = (!state.loading && !state.error && state.categories.length > 0) ? 'block' : 'none';
-            if (els.totalCategories) els.totalCategories.textContent = state.pagination.total + ' categories';
+            if (els.emptyState) els.emptyState.classList.toggle('d-none', !(!state.loading && !state.error && state.categories.length === 0));
+            if (els.categoriesList) els.categoriesList.classList.toggle('d-none', !(!state.loading && !state.error && state.categories.length > 0));
+            if (els.totalCategories) els.totalCategories.textContent = state.pagination.totalItems + ' categories';
 
             if (els.categoriesContainer) {
                 els.categoriesContainer.innerHTML = '';
@@ -944,7 +956,7 @@
             }
 
             if (els.paginationInfo && els.paginationControls) {
-                var totalPages = state.pagination.totalPages, currentPage = state.pagination.page, total = state.pagination.total;
+                var totalPages = state.pagination.totalPages, currentPage = state.pagination.currentPage, total = state.pagination.totalItems;
                 els.paginationInfo.textContent = totalPages > 1 ? 'Page ' + currentPage + ' of ' + totalPages + ' (' + total + ' total)' : 'Showing all ' + total + ' categor' + (total !== 1 ? 'ies' : 'y');
                 els.paginationControls.innerHTML = '';
                 if (totalPages > 1) {
@@ -971,7 +983,7 @@
     // Product Categories Page
     window.initProductCategoriesPage = function () {
         var PAGE_SIZE = 10;
-        var state = { loading: false, error: null, categories: [], pagination: { page: 1, totalPages: 1, total: 0 } };
+        var state = { loading: false, error: null, categories: [], pagination: { currentPage: 1, totalPages: 1, totalItems: 0 } };
         var els = {};
 
         function cacheElements() {
@@ -992,24 +1004,24 @@
                 var response = await window.api.getProductCategories(page || 1, PAGE_SIZE);
                 if (response && response.data) {
                     state.categories = response.data;
-                    state.pagination = response.pagination || { page: 1, totalPages: 1, total: 0 };
-                } else { state.categories = []; state.pagination = { page: 1, totalPages: 1, total: 0 }; }
+                    state.pagination = response.pagination || { currentPage: 1, totalPages: 1, totalItems: 0 };
+                } else { state.categories = []; state.pagination = { currentPage: 1, totalPages: 1, totalItems: 0 }; }
             } catch (err) {
                 console.error('Failed to load product categories:', err);
                 state.error = 'Failed to load product categories. Please try again.';
-                state.categories = []; state.pagination = { page: 1, totalPages: 1, total: 0 };
+                state.categories = []; state.pagination = { currentPage: 1, totalPages: 1, totalItems: 0 };
             } finally { state.loading = false; render(); }
         }
 
         function render() {
-            if (els.loadingState) els.loadingState.style.display = state.loading ? 'block' : 'none';
+            if (els.loadingState) els.loadingState.classList.toggle('d-none', !state.loading);
             if (els.errorState) {
-                if (state.error) { if (els.errorMessage) els.errorMessage.textContent = state.error; els.errorState.style.display = 'block'; }
-                else { els.errorState.style.display = 'none'; }
+                if (state.error) { if (els.errorMessage) els.errorMessage.textContent = state.error; els.errorState.classList.remove('d-none'); }
+                else { els.errorState.classList.add('d-none'); }
             }
-            if (els.emptyState) els.emptyState.style.display = (!state.loading && !state.error && state.categories.length === 0) ? 'block' : 'none';
-            if (els.categoriesList) els.categoriesList.style.display = (!state.loading && !state.error && state.categories.length > 0) ? 'block' : 'none';
-            if (els.totalCategories) els.totalCategories.textContent = state.pagination.total + ' categories';
+            if (els.emptyState) els.emptyState.classList.toggle('d-none', !(!state.loading && !state.error && state.categories.length === 0));
+            if (els.categoriesList) els.categoriesList.classList.toggle('d-none', !(!state.loading && !state.error && state.categories.length > 0));
+            if (els.totalCategories) els.totalCategories.textContent = state.pagination.totalItems + ' categories';
 
             if (els.categoriesContainer) {
                 els.categoriesContainer.innerHTML = '';
@@ -1017,13 +1029,13 @@
                     var div = document.createElement('div');
                     div.className = 'd-flex align-items-center justify-content-between p-4 rounded border mb-3';
                     div.style.cssText = 'background-color: var(--card); border-color: var(--border);';
-                    div.innerHTML = '<div class="flex-1"><div class="d-flex align-items-center gap-3"><div><h6 class="mb-0">' + escapeHtml(category.categoryName || 'N/A') + '</h6><p class="text-muted small mb-0">ID: ' + escapeHtml(category.id || 'N/A') + '</p></div><div class="ms-auto"><span class="badge bg-light text-dark">' + (category.associatedProducts || 0) + ' products</span></div></div></div><div class="ms-3"><a href="product-category-detail.html?id=' + escapeHtml(category.id) + '" class="btn btn-sm btn-outline-primary"><i class="bi bi-eye me-1"></i> View</a></div>';
+                    div.innerHTML = '<div class="flex-1"><div class="d-flex align-items-center gap-3"><div><h6 class="mb-0">' + escapeHtml(category.categoryName || 'N/A') + '</h6><p class="text-muted small mb-0">ID: ' + escapeHtml(category.categoryId || 'N/A') + '</p></div><div class="ms-auto"><span class="badge bg-light text-dark">' + (category.associatedProducts || 0) + ' products</span></div></div></div><div class="ms-3"><a href="product-category-detail.html?id=' + escapeHtml(category.categoryId) + '" class="btn btn-sm btn-outline-primary"><i class="bi bi-eye me-1"></i> View</a></div>';
                     els.categoriesContainer.appendChild(div);
                 });
             }
 
             if (els.paginationInfo && els.paginationControls) {
-                var totalPages = state.pagination.totalPages, currentPage = state.pagination.page, total = state.pagination.total;
+                var totalPages = state.pagination.totalPages, currentPage = state.pagination.currentPage, total = state.pagination.totalItems;
                 els.paginationInfo.textContent = totalPages > 1 ? 'Page ' + currentPage + ' of ' + totalPages + ' (' + total + ' total)' : 'Showing all ' + total + ' categor' + (total !== 1 ? 'ies' : 'y');
                 els.paginationControls.innerHTML = '';
                 if (totalPages > 1) {
@@ -1050,7 +1062,7 @@
     // Buyer Messages Page
     window.initBuyerMessagesPage = function () {
         var PAGE_SIZE = 5;
-        var state = { loading: false, error: null, messages: [], pagination: { page: 1, totalPages: 1, total: 0 } };
+        var state = { loading: false, error: null, messages: [], pagination: { currentPage: 1, totalPages: 1, totalItems: 0 } };
         var els = {};
 
         function cacheElements() {
@@ -1069,26 +1081,28 @@
             state.loading = true; state.error = null; render();
             try {
                 var response = await window.api.getTickets(page || 1, PAGE_SIZE);
-                if (response && response.data) {
-                    state.messages = response.data;
-                    state.pagination = response.pagination || { page: 1, totalPages: 1, total: 0 };
-                } else { state.messages = []; state.pagination = { page: 1, totalPages: 1, total: 0 }; }
+                console.debug('[debug] getTickets response keys:', response && Object.keys(response || {}));
+                var items = response && (response.data || response.tickets || response.messages);
+                if (items) {
+                    state.messages = items;
+                    state.pagination = response.pagination || { currentPage: 1, totalPages: 1, totalItems: (items && items.length) || 0 };
+                } else { state.messages = []; state.pagination = { currentPage: 1, totalPages: 1, totalItems: 0 }; }
             } catch (err) {
                 console.error('Failed to load buyer messages:', err);
                 state.error = 'Failed to load buyer messages. Please try again.';
-                state.messages = []; state.pagination = { page: 1, totalPages: 1, total: 0 };
+                state.messages = []; state.pagination = { currentPage: 1, totalPages: 1, totalItems: 0 };
             } finally { state.loading = false; render(); }
         }
 
         function render() {
-            if (els.loadingState) els.loadingState.style.display = state.loading ? 'block' : 'none';
+            if (els.loadingState) els.loadingState.classList.toggle('d-none', !state.loading);
             if (els.errorState) {
-                if (state.error) { if (els.errorMessage) els.errorMessage.textContent = state.error; els.errorState.style.display = 'block'; }
-                else { els.errorState.style.display = 'none'; }
+                if (state.error) { if (els.errorMessage) els.errorMessage.textContent = state.error; els.errorState.classList.remove('d-none'); }
+                else { els.errorState.classList.add('d-none'); }
             }
-            if (els.emptyState) els.emptyState.style.display = (!state.loading && !state.error && state.messages.length === 0) ? 'block' : 'none';
-            if (els.messagesList) els.messagesList.style.display = (!state.loading && !state.error && state.messages.length > 0) ? 'block' : 'none';
-            if (els.totalMessages) els.totalMessages.textContent = state.pagination.total + ' messages';
+            if (els.emptyState) els.emptyState.classList.toggle('d-none', !(!state.loading && !state.error && state.messages.length === 0));
+            if (els.messagesList) els.messagesList.classList.toggle('d-none', !(!state.loading && !state.error && state.messages.length > 0));
+            if (els.totalMessages) els.totalMessages.textContent = state.pagination.totalItems + ' messages';
 
             if (els.messagesContainer) {
                 els.messagesContainer.innerHTML = '';
@@ -1102,7 +1116,7 @@
             }
 
             if (els.paginationInfo && els.paginationControls) {
-                var totalPages = state.pagination.totalPages, currentPage = state.pagination.page, total = state.pagination.total;
+                var totalPages = state.pagination.totalPages, currentPage = state.pagination.currentPage, total = state.pagination.totalItems;
                 els.paginationInfo.textContent = totalPages > 1 ? 'Page ' + currentPage + ' of ' + totalPages + ' (' + total + ' total)' : 'Showing all ' + total + ' message' + (total !== 1 ? 's' : '');
                 els.paginationControls.innerHTML = '';
                 if (totalPages > 1) {
@@ -1129,7 +1143,7 @@
     // Vendor Messages Page
     window.initVendorMessagesPage = function () {
         var PAGE_SIZE = 5;
-        var state = { loading: false, error: null, messages: [], pagination: { page: 1, totalPages: 1, total: 0 } };
+        var state = { loading: false, error: null, messages: [], pagination: { currentPage: 1, totalPages: 1, totalItems: 0 } };
         var els = {};
 
         function cacheElements() {
@@ -1148,26 +1162,27 @@
             state.loading = true; state.error = null; render();
             try {
                 var response = await window.api.getTickets(page || 1, PAGE_SIZE);
-                if (response && response.data) {
-                    state.messages = response.data;
-                    state.pagination = response.pagination || { page: 1, totalPages: 1, total: 0 };
-                } else { state.messages = []; state.pagination = { page: 1, totalPages: 1, total: 0 }; }
+                var items = response && (response.data || response.tickets || response.messages);
+                if (items) {
+                    state.messages = items;
+                    state.pagination = response.pagination || { currentPage: 1, totalPages: 1, totalItems: (items && items.length) || 0 };
+                } else { state.messages = []; state.pagination = { currentPage: 1, totalPages: 1, totalItems: 0 }; }
             } catch (err) {
                 console.error('Failed to load vendor messages:', err);
                 state.error = 'Failed to load vendor messages. Please try again.';
-                state.messages = []; state.pagination = { page: 1, totalPages: 1, total: 0 };
+                state.messages = []; state.pagination = { currentPage: 1, totalPages: 1, totalItems: 0 };
             } finally { state.loading = false; render(); }
         }
 
         function render() {
-            if (els.loadingState) els.loadingState.style.display = state.loading ? 'block' : 'none';
+            if (els.loadingState) els.loadingState.classList.toggle('d-none', !state.loading);
             if (els.errorState) {
-                if (state.error) { if (els.errorMessage) els.errorMessage.textContent = state.error; els.errorState.style.display = 'block'; }
-                else { els.errorState.style.display = 'none'; }
+                if (state.error) { if (els.errorMessage) els.errorMessage.textContent = state.error; els.errorState.classList.remove('d-none'); }
+                else { els.errorState.classList.add('d-none'); }
             }
-            if (els.emptyState) els.emptyState.style.display = (!state.loading && !state.error && state.messages.length === 0) ? 'block' : 'none';
-            if (els.messagesList) els.messagesList.style.display = (!state.loading && !state.error && state.messages.length > 0) ? 'block' : 'none';
-            if (els.totalMessages) els.totalMessages.textContent = state.pagination.total + ' messages';
+            if (els.emptyState) els.emptyState.classList.toggle('d-none', !(!state.loading && !state.error && state.messages.length === 0));
+            if (els.messagesList) els.messagesList.classList.toggle('d-none', !(!state.loading && !state.error && state.messages.length > 0));
+            if (els.totalMessages) els.totalMessages.textContent = state.pagination.totalItems + ' messages';
 
             if (els.messagesContainer) {
                 els.messagesContainer.innerHTML = '';
@@ -1181,7 +1196,7 @@
             }
 
             if (els.paginationInfo && els.paginationControls) {
-                var totalPages = state.pagination.totalPages, currentPage = state.pagination.page, total = state.pagination.total;
+                var totalPages = state.pagination.totalPages, currentPage = state.pagination.currentPage, total = state.pagination.totalItems;
                 els.paginationInfo.textContent = totalPages > 1 ? 'Page ' + currentPage + ' of ' + totalPages + ' (' + total + ' total)' : 'Showing all ' + total + ' message' + (total !== 1 ? 's' : '');
                 els.paginationControls.innerHTML = '';
                 if (totalPages > 1) {
@@ -1208,7 +1223,7 @@
     // Orders Page
     window.initOrdersPage = function () {
         var PAGE_SIZE = 10;
-        var state = { loading: false, error: null, orders: [], pagination: { page: 1, totalPages: 1, total: 0 } };
+        var state = { loading: false, error: null, orders: [], pagination: { currentPage: 1, totalPages: 1, totalItems: 0 } };
         var els = {};
 
         function cacheElements() {
@@ -1224,25 +1239,28 @@
                 var response = await window.api.getOrders({ page: page || 1, perPage: PAGE_SIZE });
                 if (response && response.data) {
                     state.orders = response.data;
-                    state.pagination = response.pagination || { page: 1, totalPages: 1, total: 0 };
-                } else { state.orders = []; state.pagination = { page: 1, totalPages: 1, total: 0 }; }
+                    state.pagination = response.pagination || { currentPage: 1, totalPages: 1, totalItems: 0 };
+                } else { state.orders = []; state.pagination = { currentPage: 1, totalPages: 1, totalItems: 0 }; }
             } catch (err) {
                 console.error('Failed to load orders:', err);
                 state.error = 'Failed to load orders. Please try again.';
-                state.orders = []; state.pagination = { page: 1, totalPages: 1, total: 0 };
+                state.orders = []; state.pagination = { currentPage: 1, totalPages: 1, totalItems: 0 };
             } finally { state.loading = false; render(); }
         }
 
         function render() {
-            if (els.loadingOverlay) els.loadingOverlay.style.display = state.loading ? 'flex' : 'none';
-            if (els.errorAlert) els.errorAlert.style.display = state.error ? 'block' : 'none';
+            if (els.loadingOverlay) {
+                els.loadingOverlay.classList.toggle('d-none', !state.loading);
+                els.loadingOverlay.classList.toggle('d-flex', !!state.loading);
+            }
+            if (els.errorAlert) els.errorAlert.classList.toggle('d-none', !state.error);
 
             if (els.ordersTableBody) {
                 els.ordersTableBody.innerHTML = '';
                 state.orders.forEach(function (order) {
                     var tr = document.createElement('tr');
                     var statusClass = order.status === 'delivered' ? 'bg-success' : (order.status === 'cancelled' ? 'bg-danger' : 'bg-warning');
-                    tr.innerHTML = '<td>' + escapeHtml(order.orderNo || 'N/A') + '</td><td>' + escapeHtml(order.customerName || 'N/A') + '</td><td>' + escapeHtml(order.customerEmail || 'N/A') + '</td><td><span class="badge ' + statusClass + '">' + escapeHtml(order.status || 'N/A') + '</span></td><td>' + escapeHtml(order.totalAmount || 'N/A') + '</td><td>' + formatDate(order.createdAt) + '</td><td><button class="btn btn-sm btn-outline-primary">View</button></td>';
+                    tr.innerHTML = '<td>' + escapeHtml(order.orderNo || 'N/A') + '</td><td>' + escapeHtml(order.customerName || 'N/A') + '</td><td>' + escapeHtml(order.customerEmail || 'N/A') + '</td><td><span class="badge ' + statusClass + '">' + escapeHtml(order.status || 'N/A') + '</span></td><td>' + escapeHtml(order.totalAmount || 'N/A') + '</td><td>' + formatDate(order.createdAt) + '</td><td><a href="order-detail.html?orderNo=' + encodeURIComponent(escapeHtml(order.orderNo || '')) + '" class="btn btn-sm btn-outline-primary">View</a></td>';
                     els.ordersTableBody.appendChild(tr);
                 });
             }
@@ -1280,12 +1298,12 @@
         }
 
         function render() {
-            if (els.loadingState) els.loadingState.style.display = state.loading ? 'block' : 'none';
+            if (els.loadingState) els.loadingState.classList.toggle('d-none', !state.loading);
             if (els.errorState) {
-                if (state.error) { if (els.errorMessage) els.errorMessage.textContent = state.error; els.errorState.style.display = 'block'; }
-                else { els.errorState.style.display = 'none'; }
+                if (state.error) { if (els.errorMessage) els.errorMessage.textContent = state.error; els.errorState.classList.remove('d-none'); }
+                else { els.errorState.classList.add('d-none'); }
             }
-            if (els.messageDetail) els.messageDetail.style.display = (!state.loading && !state.error && state.contact) ? 'block' : 'none';
+            if (els.messageDetail) els.messageDetail.classList.toggle('d-none', !(!state.loading && !state.error && state.contact));
         }
 
         cacheElements();
@@ -1320,12 +1338,12 @@
         }
 
         function render() {
-            if (els.loadingState) els.loadingState.style.display = state.loading ? 'block' : 'none';
+            if (els.loadingState) els.loadingState.classList.toggle('d-none', !state.loading);
             if (els.errorState) {
-                if (state.error) { if (els.errorMessage) els.errorMessage.textContent = state.error; els.errorState.style.display = 'block'; }
-                else { els.errorState.style.display = 'none'; }
+                if (state.error) { if (els.errorMessage) els.errorMessage.textContent = state.error; els.errorState.classList.remove('d-none'); }
+                else { els.errorState.classList.add('d-none'); }
             }
-            if (els.waitlistDetail) els.waitlistDetail.style.display = (!state.loading && !state.error && state.entry) ? 'block' : 'none';
+            if (els.waitlistDetail) els.waitlistDetail.classList.toggle('d-none', !(!state.loading && !state.error && state.entry));
         }
 
         cacheElements();
@@ -1360,12 +1378,12 @@
         }
 
         function render() {
-            if (els.loadingState) els.loadingState.style.display = state.loading ? 'block' : 'none';
+            if (els.loadingState) els.loadingState.classList.toggle('d-none', !state.loading);
             if (els.errorState) {
-                if (state.error) { if (els.errorMessage) els.errorMessage.textContent = state.error; els.errorState.style.display = 'block'; }
-                else { els.errorState.style.display = 'none'; }
+                if (state.error) { if (els.errorMessage) els.errorMessage.textContent = state.error; els.errorState.classList.remove('d-none'); }
+                else { els.errorState.classList.add('d-none'); }
             }
-            if (els.signupDetail) els.signupDetail.style.display = (!state.loading && !state.error && state.signup) ? 'block' : 'none';
+            if (els.signupDetail) els.signupDetail.classList.toggle('d-none', !(!state.loading && !state.error && state.signup));
         }
 
         cacheElements();
@@ -1400,12 +1418,12 @@
         }
 
         function render() {
-            if (els.loadingState) els.loadingState.style.display = state.loading ? 'block' : 'none';
+            if (els.loadingState) els.loadingState.classList.toggle('d-none', !state.loading);
             if (els.errorState) {
-                if (state.error) { if (els.errorMessage) els.errorMessage.textContent = state.error; els.errorState.style.display = 'block'; }
-                else { els.errorState.style.display = 'none'; }
+                if (state.error) { if (els.errorMessage) els.errorMessage.textContent = state.error; els.errorState.classList.remove('d-none'); }
+                else { els.errorState.classList.add('d-none'); }
             }
-            if (els.signupDetail) els.signupDetail.style.display = (!state.loading && !state.error && state.signup) ? 'block' : 'none';
+            if (els.signupDetail) els.signupDetail.classList.toggle('d-none', !(!state.loading && !state.error && state.signup));
         }
 
         cacheElements();
@@ -1440,12 +1458,12 @@
         }
 
         function render() {
-            if (els.loadingState) els.loadingState.style.display = state.loading ? 'block' : 'none';
+            if (els.loadingState) els.loadingState.classList.toggle('d-none', !state.loading);
             if (els.errorState) {
-                if (state.error) { if (els.errorMessage) els.errorMessage.textContent = state.error; els.errorState.style.display = 'block'; }
-                else { els.errorState.style.display = 'none'; }
+                if (state.error) { if (els.errorMessage) els.errorMessage.textContent = state.error; els.errorState.classList.remove('d-none'); }
+                else { els.errorState.classList.add('d-none'); }
             }
-            if (els.categoryDetail) els.categoryDetail.style.display = (!state.loading && !state.error && state.category) ? 'block' : 'none';
+            if (els.categoryDetail) els.categoryDetail.classList.toggle('d-none', !(!state.loading && !state.error && state.category));
         }
 
         cacheElements();
@@ -1480,12 +1498,12 @@
         }
 
         function render() {
-            if (els.loadingState) els.loadingState.style.display = state.loading ? 'block' : 'none';
+            if (els.loadingState) els.loadingState.classList.toggle('d-none', !state.loading);
             if (els.errorState) {
-                if (state.error) { if (els.errorMessage) els.errorMessage.textContent = state.error; els.errorState.style.display = 'block'; }
-                else { els.errorState.style.display = 'none'; }
+                if (state.error) { if (els.errorMessage) els.errorMessage.textContent = state.error; els.errorState.classList.remove('d-none'); }
+                else { els.errorState.classList.add('d-none'); }
             }
-            if (els.categoryDetail) els.categoryDetail.style.display = (!state.loading && !state.error && state.category) ? 'block' : 'none';
+            if (els.categoryDetail) els.categoryDetail.classList.toggle('d-none', !(!state.loading && !state.error && state.category));
         }
 
         cacheElements();
@@ -1520,12 +1538,12 @@
         }
 
         function render() {
-            if (els.loadingState) els.loadingState.style.display = state.loading ? 'block' : 'none';
+            if (els.loadingState) els.loadingState.classList.toggle('d-none', !state.loading);
             if (els.errorState) {
-                if (state.error) { if (els.errorMessage) els.errorMessage.textContent = state.error; els.errorState.style.display = 'block'; }
-                else { els.errorState.style.display = 'none'; }
+                if (state.error) { if (els.errorMessage) els.errorMessage.textContent = state.error; els.errorState.classList.remove('d-none'); }
+                else { els.errorState.classList.add('d-none'); }
             }
-            if (els.messageDetail) els.messageDetail.style.display = (!state.loading && !state.error && state.message) ? 'block' : 'none';
+            if (els.messageDetail) els.messageDetail.classList.toggle('d-none', !(!state.loading && !state.error && state.message));
         }
 
         cacheElements();
@@ -1560,12 +1578,12 @@
         }
 
         function render() {
-            if (els.loadingState) els.loadingState.style.display = state.loading ? 'block' : 'none';
+            if (els.loadingState) els.loadingState.classList.toggle('d-none', !state.loading);
             if (els.errorState) {
-                if (state.error) { if (els.errorMessage) els.errorMessage.textContent = state.error; els.errorState.style.display = 'block'; }
-                else { els.errorState.style.display = 'none'; }
+                if (state.error) { if (els.errorMessage) els.errorMessage.textContent = state.error; els.errorState.classList.remove('d-none'); }
+                else { els.errorState.classList.add('d-none'); }
             }
-            if (els.messageDetail) els.messageDetail.style.display = (!state.loading && !state.error && state.message) ? 'block' : 'none';
+            if (els.messageDetail) els.messageDetail.classList.toggle('d-none', !(!state.loading && !state.error && state.message));
         }
 
         cacheElements();
