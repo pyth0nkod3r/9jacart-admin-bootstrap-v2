@@ -338,6 +338,13 @@
         return ok({ data: result.data, pagination: result.pagination });
     }
 
+    async function getProductCategory(id) {
+        await delay();
+        var c = data.productCategories.find(function (x) { return x.categoryId === id; });
+        if (!c) throw new Error('Product category not found');
+        return ok({ data: c });
+    }
+
     async function getAllProductCategories() {
         await delay();
         var result = paginate(data.productCategories, 1, 10000);
@@ -447,6 +454,13 @@
         };
     }
 
+    async function getTicket(ticketId) {
+        await delay();
+        var t = data.tickets.find(function (x) { return x.ticketId === ticketId || x.id === ticketId; });
+        if (!t) throw new Error('Ticket not found');
+        return ok({ data: t });
+    }
+
     async function replyToTicket(_ticketId, _message) {
         await delay();
         return ok({ message: 'Reply sent successfully' });
@@ -524,6 +538,7 @@
         deleteBusinessCategory: deleteBusinessCategory,
         // Product categories
         getProductCategories: getProductCategories,
+        getProductCategory: getProductCategory,
         getAllProductCategories: getAllProductCategories,
         createProductCategory: createProductCategory,
         updateProductCategory: updateProductCategory,
@@ -533,6 +548,7 @@
         updateCommission: updateCommission,
         // Tickets
         getTickets: getTickets,
+        getTicket: getTicket,
         getTicketMessages: getTicketMessages,
         replyToTicket: replyToTicket,
         // Notifications

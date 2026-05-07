@@ -1110,7 +1110,7 @@
                     var div = document.createElement('div');
                     div.className = 'd-flex align-items-center justify-content-between p-4 rounded border mb-3';
                     div.style.cssText = 'background-color: var(--card); border-color: var(--border);';
-                    div.innerHTML = '<div class="flex-1"><div class="d-flex align-items-start gap-3"><div class="flex-1"><div class="d-flex align-items-center gap-2 mb-1"><h6 class="mb-0">' + escapeHtml(msg.subject || 'N/A') + '</h6><span class="badge bg-primary">Ticket #' + escapeHtml(msg.id || 'N/A') + '</span></div><p class="text-muted small mb-1">' + escapeHtml(msg.senderName || 'N/A') + '</p><p class="text-muted small mb-0">' + escapeHtml((msg.message || '').substring(0, 80)) + '...</p></div><div class="d-none d-md-block text-end"><p class="text-muted small mb-0">Created</p><p class="small fw-medium mb-0">' + formatDate(msg.createdAt) + '</p></div></div></div><div class="ms-3"><a href="buyer-message-detail.html?id=' + escapeHtml(msg.id) + '" class="btn btn-sm btn-outline-primary"><i class="bi bi-eye me-1"></i> View</a></div>';
+                    div.innerHTML = '<div class="flex-1"><div class="d-flex align-items-start gap-3"><div class="flex-1"><div class="d-flex align-items-center gap-2 mb-1"><h6 class="mb-0">' + escapeHtml(msg.subject || 'N/A') + '</h6><span class="badge bg-primary">Ticket #' + escapeHtml((msg.ticketId || msg.id) || 'N/A') + '</span></div><p class="text-muted small mb-1">' + escapeHtml(msg.senderName || 'N/A') + '</p><p class="text-muted small mb-0">' + escapeHtml((msg.message || '').substring(0, 80)) + '...</p></div><div class="d-none d-md-block text-end"><p class="text-muted small mb-0">Created</p><p class="small fw-medium mb-0">' + formatDate(msg.createdAt) + '</p></div></div></div><div class="ms-3"><a href="buyer-message-detail.html?id=' + escapeHtml(msg.ticketId || msg.id) + '" class="btn btn-sm btn-outline-primary"><i class="bi bi-eye me-1"></i> View</a></div>';
                     els.messagesContainer.appendChild(div);
                 });
             }
@@ -1190,7 +1190,7 @@
                     var div = document.createElement('div');
                     div.className = 'd-flex align-items-center justify-content-between p-4 rounded border mb-3';
                     div.style.cssText = 'background-color: var(--card); border-color: var(--border);';
-                    div.innerHTML = '<div class="flex-1"><div class="d-flex align-items-start gap-3"><div class="flex-1"><div class="d-flex align-items-center gap-2 mb-1"><h6 class="mb-0">' + escapeHtml(msg.subject || 'N/A') + '</h6><span class="badge bg-primary">Ticket #' + escapeHtml(msg.id || 'N/A') + '</span></div><p class="text-muted small mb-1">' + escapeHtml(msg.senderName || 'N/A') + '</p><p class="text-muted small mb-0">' + escapeHtml((msg.message || '').substring(0, 80)) + '...</p></div><div class="d-none d-md-block text-end"><p class="text-muted small mb-0">Created</p><p class="small fw-medium mb-0">' + formatDate(msg.createdAt) + '</p></div></div></div><div class="ms-3"><a href="vendor-message-detail.html?id=' + escapeHtml(msg.id) + '" class="btn btn-sm btn-outline-primary"><i class="bi bi-eye me-1"></i> View</a></div>';
+                    div.innerHTML = '<div class="flex-1"><div class="d-flex align-items-start gap-3"><div class="flex-1"><div class="d-flex align-items-center gap-2 mb-1"><h6 class="mb-0">' + escapeHtml(msg.subject || 'N/A') + '</h6><span class="badge bg-primary">Ticket #' + escapeHtml((msg.ticketId || msg.id) || 'N/A') + '</span></div><p class="text-muted small mb-1">' + escapeHtml(msg.senderName || 'N/A') + '</p><p class="text-muted small mb-0">' + escapeHtml((msg.message || '').substring(0, 80)) + '...</p></div><div class="d-none d-md-block text-end"><p class="text-muted small mb-0">Created</p><p class="small fw-medium mb-0">' + formatDate(msg.createdAt) + '</p></div></div></div><div class="ms-3"><a href="vendor-message-detail.html?id=' + escapeHtml(msg.ticketId || msg.id) + '" class="btn btn-sm btn-outline-primary"><i class="bi bi-eye me-1"></i> View</a></div>';
                     els.messagesContainer.appendChild(div);
                 });
             }
@@ -1279,7 +1279,13 @@
             els.loadingState = document.getElementById('loadingState');
             els.errorState = document.getElementById('errorState');
             els.errorMessage = document.getElementById('errorMessage');
-            els.messageDetail = document.getElementById('messageDetail');
+            els.contactDetail = document.getElementById('contactDetail');
+            els.subjectDisplay = document.getElementById('subjectDisplay');
+            els.messageDisplay = document.getElementById('messageDisplay');
+            els.fullNameDisplay = document.getElementById('fullNameDisplay');
+            els.emailDisplay = document.getElementById('emailDisplay');
+            els.submittedDateDisplay = document.getElementById('submittedDateDisplay');
+            els.updatedDateDisplay = document.getElementById('updatedDateDisplay');
             els.backBtn = document.getElementById('backBtn');
         }
 
@@ -1303,7 +1309,16 @@
                 if (state.error) { if (els.errorMessage) els.errorMessage.textContent = state.error; els.errorState.classList.remove('d-none'); }
                 else { els.errorState.classList.add('d-none'); }
             }
-            if (els.messageDetail) els.messageDetail.classList.toggle('d-none', !(!state.loading && !state.error && state.contact));
+            if (els.contactDetail) els.contactDetail.classList.toggle('d-none', !(!state.loading && !state.error && state.contact));
+            if (state.contact && els.subjectDisplay) els.subjectDisplay.textContent = state.contact.subject || '--';
+            if (state.contact && els.messageDisplay) els.messageDisplay.textContent = state.contact.message || '--';
+            if (state.contact && els.fullNameDisplay) els.fullNameDisplay.textContent = state.contact.fullName || '--';
+            if (state.contact && els.emailDisplay) {
+                els.emailDisplay.textContent = state.contact.email || '--';
+                if (state.contact.email) els.emailDisplay.setAttribute('href', 'mailto:' + state.contact.email);
+            }
+            if (state.contact && els.submittedDateDisplay) els.submittedDateDisplay.textContent = state.contact.createdAt ? formatDate(state.contact.createdAt) : '--';
+            if (state.contact && els.updatedDateDisplay) els.updatedDateDisplay.textContent = state.contact.updatedAt ? formatDate(state.contact.updatedAt) : '--';
         }
 
         cacheElements();
@@ -1321,6 +1336,23 @@
             els.errorMessage = document.getElementById('errorMessage');
             els.waitlistDetail = document.getElementById('waitlistDetail');
             els.backBtn = document.getElementById('backBtn');
+            els.businessNameDisplay = document.getElementById('businessNameDisplay');
+            els.businessTypeDisplay = document.getElementById('businessTypeDisplay');
+            els.stateOfOperationDisplay = document.getElementById('stateOfOperationDisplay');
+            els.fullNameDisplay = document.getElementById('fullNameDisplay');
+            els.emailDisplay = document.getElementById('emailDisplay');
+            els.phoneDisplay = document.getElementById('phoneDisplay');
+            els.appliedDateDisplay = document.getElementById('appliedDateDisplay');
+            els.updatedDateDisplay = document.getElementById('updatedDateDisplay');
+            els.productCategoriesContainer = document.getElementById('productCategoriesContainer');
+            els.productOriginDisplay = document.getElementById('productOriginDisplay');
+            els.specialHandlingDisplay = document.getElementById('specialHandlingDisplay');
+            els.specialHandlingIcon = document.getElementById('specialHandlingIcon');
+            els.onlinePresenceDisplay = document.getElementById('onlinePresenceDisplay');
+            els.onlinePlatformsDisplay = document.getElementById('onlinePlatformsDisplay');
+            els.receiveNotificationDisplay = document.getElementById('receiveNotificationDisplay');
+            els.messageCard = document.getElementById('messageCard');
+            els.messageDisplay = document.getElementById('messageDisplay');
         }
 
         async function loadEntry() {
@@ -1344,6 +1376,28 @@
                 else { els.errorState.classList.add('d-none'); }
             }
             if (els.waitlistDetail) els.waitlistDetail.classList.toggle('d-none', !(!state.loading && !state.error && state.entry));
+            if (state.entry) {
+                if (els.businessNameDisplay) els.businessNameDisplay.textContent = state.entry.business_name || '--';
+                if (els.businessTypeDisplay) els.businessTypeDisplay.textContent = state.entry.category || '--';
+                if (els.stateOfOperationDisplay) els.stateOfOperationDisplay.textContent = state.entry.state || '--';
+                if (els.fullNameDisplay) els.fullNameDisplay.textContent = state.entry.full_name || '--';
+                if (els.emailDisplay) { els.emailDisplay.textContent = state.entry.email || '--'; if (state.entry.email) els.emailDisplay.setAttribute('href', 'mailto:' + state.entry.email); }
+                if (els.phoneDisplay) els.phoneDisplay.textContent = state.entry.phone || '--';
+                if (els.appliedDateDisplay) els.appliedDateDisplay.textContent = state.entry.created_at ? formatDate(state.entry.created_at) : '--';
+                if (els.updatedDateDisplay) els.updatedDateDisplay.textContent = state.entry.updated_at ? formatDate(state.entry.updated_at) : '--';
+                if (els.productCategoriesContainer) {
+                    els.productCategoriesContainer.innerHTML = (state.entry.category ? '<span class="badge bg-light text-dark small">' + escapeHtml(state.entry.category) + '</span>' : '');
+                }
+                if (els.productOriginDisplay) els.productOriginDisplay.textContent = state.entry.product_origin || '--';
+                if (els.specialHandlingDisplay) els.specialHandlingDisplay.textContent = state.entry.special_handling ? 'Yes' : '--';
+                if (els.specialHandlingIcon) els.specialHandlingIcon.style.display = state.entry.special_handling ? '' : 'none';
+                if (els.onlinePresenceDisplay) els.onlinePresenceDisplay.textContent = state.entry.online_presence ? 'Yes' : '--';
+                if (els.onlinePlatformsDisplay) els.onlinePlatformsDisplay.textContent = state.entry.online_platforms || '--';
+                if (els.receiveNotificationDisplay) els.receiveNotificationDisplay.textContent = state.entry.receive_notifications ? 'Yes' : '--';
+                if (els.messageDisplay) {
+                    if (state.entry.message) { els.messageCard.style.display = ''; els.messageDisplay.textContent = state.entry.message; } else { if (els.messageCard) els.messageCard.style.display = 'none'; }
+                }
+            }
         }
 
         cacheElements();
@@ -1361,6 +1415,31 @@
             els.errorMessage = document.getElementById('errorMessage');
             els.signupDetail = document.getElementById('signupDetail');
             els.backBtn = document.getElementById('backBtn');
+            // Personal
+            els.fullNameDisplay = document.getElementById('fullNameDisplay');
+            els.emailDisplay = document.getElementById('emailDisplay');
+            els.phoneDisplay = document.getElementById('phoneDisplay');
+            els.vendorIdDisplay = document.getElementById('vendorIdDisplay');
+            // Business
+            els.businessNameDisplay = document.getElementById('businessNameDisplay');
+            els.storeNameDisplay = document.getElementById('storeNameDisplay');
+            els.businessCategoryDisplay = document.getElementById('businessCategoryDisplay');
+            els.businessRegNumberDisplay = document.getElementById('businessRegNumberDisplay');
+            els.taxIdNumberDisplay = document.getElementById('taxIdNumberDisplay');
+            els.businessAddressDisplay = document.getElementById('businessAddressDisplay');
+            // Account
+            els.accountNameDisplay = document.getElementById('accountNameDisplay');
+            els.bankNameDisplay = document.getElementById('bankNameDisplay');
+            els.accountNumberDisplay = document.getElementById('accountNumberDisplay');
+            // Documents / timeline
+            els.idDocumentBtn = document.getElementById('idDocumentBtn');
+            els.regCertificateBtn = document.getElementById('regCertificateBtn');
+            els.createdAtDisplay = document.getElementById('createdAtDisplay');
+            els.updatedAtDisplay = document.getElementById('updatedAtDisplay');
+            els.approvedAtSection = document.getElementById('approvedAtSection');
+            els.approvedAtDisplay = document.getElementById('approvedAtDisplay');
+            els.suspendedAtSection = document.getElementById('suspendedAtSection');
+            els.suspendedAtDisplay = document.getElementById('suspendedAtDisplay');
         }
 
         async function loadSignup() {
@@ -1384,6 +1463,28 @@
                 else { els.errorState.classList.add('d-none'); }
             }
             if (els.signupDetail) els.signupDetail.classList.toggle('d-none', !(!state.loading && !state.error && state.signup));
+            if (state.signup) {
+                if (els.fullNameDisplay) els.fullNameDisplay.textContent = state.signup.fullName || '--';
+                if (els.emailDisplay) els.emailDisplay.textContent = state.signup.emailAddress || '--';
+                if (els.emailDisplay && state.signup.emailAddress) els.emailDisplay.setAttribute('href', 'mailto:' + state.signup.emailAddress);
+                if (els.phoneDisplay) els.phoneDisplay.textContent = state.signup.phoneNumber || '--';
+                if (els.vendorIdDisplay) els.vendorIdDisplay.textContent = state.signup.vendorId || state.signup.vendorId || '--';
+                if (els.businessNameDisplay) els.businessNameDisplay.textContent = state.signup.businessName || '--';
+                if (els.storeNameDisplay) els.storeNameDisplay.textContent = state.signup.storeName || '--';
+                if (els.businessCategoryDisplay) els.businessCategoryDisplay.textContent = state.signup.businessCategoryName || state.signup.businessCategory || '--';
+                if (els.businessRegNumberDisplay) els.businessRegNumberDisplay.textContent = state.signup.businessRegNumber || '--';
+                if (els.taxIdNumberDisplay) els.taxIdNumberDisplay.textContent = state.signup.taxIdNumber || '--';
+                if (els.businessAddressDisplay) els.businessAddressDisplay.textContent = state.signup.businessAddress || '--';
+                if (els.accountNameDisplay) els.accountNameDisplay.textContent = state.signup.accountName || '--';
+                if (els.bankNameDisplay) els.bankNameDisplay.textContent = state.signup.bankName || '--';
+                if (els.accountNumberDisplay) els.accountNumberDisplay.textContent = state.signup.accountNumber || '--';
+                if (els.createdAtDisplay) els.createdAtDisplay.textContent = state.signup.createdAt ? formatDate(state.signup.createdAt) : '--';
+                if (els.updatedAtDisplay) els.updatedAtDisplay.textContent = state.signup.updatedAt ? formatDate(state.signup.updatedAt) : '--';
+                if (state.signup.approvedAt && els.approvedAtSection) { els.approvedAtSection.style.display = ''; if (els.approvedAtDisplay) els.approvedAtDisplay.textContent = formatDate(state.signup.approvedAt); }
+                else if (els.approvedAtSection) els.approvedAtSection.style.display = 'none';
+                if (state.signup.suspendedAt && els.suspendedAtSection) { els.suspendedAtSection.style.display = ''; if (els.suspendedAtDisplay) els.suspendedAtDisplay.textContent = formatDate(state.signup.suspendedAt); }
+                else if (els.suspendedAtSection) els.suspendedAtSection.style.display = 'none';
+            }
         }
 
         cacheElements();
@@ -1401,6 +1502,13 @@
             els.errorMessage = document.getElementById('errorMessage');
             els.signupDetail = document.getElementById('signupDetail');
             els.backBtn = document.getElementById('backBtn');
+            els.createdAtDisplay = document.getElementById('createdAtDisplay');
+            els.updatedAtDisplay = document.getElementById('updatedAtDisplay');
+            // buyer personal
+            els.fullNameDisplay = document.getElementById('fullNameDisplay');
+            els.emailDisplay = document.getElementById('emailDisplay');
+            els.phoneDisplay = document.getElementById('phoneDisplay');
+            els.buyerIdDisplay = document.getElementById('buyerIdDisplay');
         }
 
         async function loadSignup() {
@@ -1424,6 +1532,14 @@
                 else { els.errorState.classList.add('d-none'); }
             }
             if (els.signupDetail) els.signupDetail.classList.toggle('d-none', !(!state.loading && !state.error && state.signup));
+            if (state.signup) {
+                if (els.fullNameDisplay) els.fullNameDisplay.textContent = state.signup.fullName || '--';
+                if (els.emailDisplay) { els.emailDisplay.textContent = state.signup.emailAddress || '--'; if (state.signup.emailAddress) els.emailDisplay.setAttribute('href', 'mailto:' + state.signup.emailAddress); }
+                if (els.phoneDisplay) els.phoneDisplay.textContent = state.signup.phoneNumber || '--';
+                if (els.buyerIdDisplay) els.buyerIdDisplay.textContent = state.signup.buyerId || '--';
+                if (els.createdAtDisplay) els.createdAtDisplay.textContent = state.signup.createdAt ? formatDate(state.signup.createdAt) : '--';
+                if (els.updatedAtDisplay) els.updatedAtDisplay.textContent = state.signup.updatedAt ? formatDate(state.signup.updatedAt) : '--';
+            }
         }
 
         cacheElements();
@@ -1441,6 +1557,20 @@
             els.errorMessage = document.getElementById('errorMessage');
             els.categoryDetail = document.getElementById('categoryDetail');
             els.backBtn = document.getElementById('backBtn');
+            els.categoryNameDisplay = document.getElementById('categoryNameDisplay');
+            els.categoryIdDisplay = document.getElementById('categoryIdDisplay');
+            els.categoryNameDisplaySmall = document.getElementById('categoryNameDisplaySmall');
+            els.productCountDisplay = document.getElementById('productCountDisplay');
+            els.createdDateDisplay = document.getElementById('createdDateDisplay');
+            els.updatedDateDisplay = document.getElementById('updatedDateDisplay');
+            els.updatedDateSection = document.getElementById('updatedDateSection');
+            els.displayForm = document.getElementById('displayForm');
+            els.editForm = document.getElementById('editForm');
+            els.categoryNameInput = document.getElementById('categoryNameInput');
+            els.editBtn = document.getElementById('editBtn');
+            els.deleteBtn = document.getElementById('deleteBtn');
+            els.saveBtn = document.getElementById('saveBtn');
+            els.cancelBtn = document.getElementById('cancelBtn');
         }
 
         async function loadCategory() {
@@ -1464,6 +1594,19 @@
                 else { els.errorState.classList.add('d-none'); }
             }
             if (els.categoryDetail) els.categoryDetail.classList.toggle('d-none', !(!state.loading && !state.error && state.category));
+            if (state.category) {
+                if (els.categoryNameDisplay) els.categoryNameDisplay.textContent = state.category.categoryName || '--';
+                if (els.categoryIdDisplay) els.categoryIdDisplay.textContent = state.category.categoryId || state.category.id || '--';
+                if (els.categoryNameDisplaySmall) els.categoryNameDisplaySmall.textContent = state.category.categoryName || '--';
+                if (els.productCountDisplay) els.productCountDisplay.textContent = state.category.associatedProducts || '--';
+                if (els.createdDateDisplay) els.createdDateDisplay.textContent = state.category.createdAt ? formatDate(state.category.createdAt) : '--';
+                if (els.updatedDateDisplay) {
+                    if (state.category.updatedAt) { els.updatedDateDisplay.textContent = formatDate(state.category.updatedAt); els.updatedDateSection.classList.remove('d-none'); }
+                    else { els.updatedDateSection.classList.add('d-none'); }
+                }
+                // Fill edit input default
+                if (els.categoryNameInput) els.categoryNameInput.value = state.category.categoryName || '';
+            }
         }
 
         cacheElements();
@@ -1481,6 +1624,12 @@
             els.errorMessage = document.getElementById('errorMessage');
             els.categoryDetail = document.getElementById('categoryDetail');
             els.backBtn = document.getElementById('backBtn');
+            els.categoryNameDisplay = document.getElementById('categoryNameDisplay');
+            els.categoryNameDisplaySmall = document.getElementById('categoryNameDisplaySmall');
+            els.productCountDisplay = document.getElementById('productCountDisplay');
+            els.createdDateDisplay = document.getElementById('createdDateDisplay');
+            els.updatedDateDisplay = document.getElementById('updatedDateDisplay');
+            els.updatedDateSection = document.getElementById('updatedDateSection');
         }
 
         async function loadCategory() {
@@ -1489,8 +1638,10 @@
             if (!state.id) { state.error = 'Category ID is required'; render(); return; }
             state.loading = true; state.error = null; render();
             try {
+                console.debug('[debug] loading product category id=', state.id);
                 var response = await window.api.getProductCategory(state.id);
-                state.category = response.data;
+                console.debug('[debug] getProductCategory response keys=', response && Object.keys(response || {}));
+                state.category = response && response.data ? response.data : null;
             } catch (err) {
                 console.error('Failed to load product category:', err);
                 state.error = 'Failed to load product category. Please try again.';
@@ -1504,6 +1655,16 @@
                 else { els.errorState.classList.add('d-none'); }
             }
             if (els.categoryDetail) els.categoryDetail.classList.toggle('d-none', !(!state.loading && !state.error && state.category));
+            if (state.category) {
+                if (els.categoryNameDisplay) els.categoryNameDisplay.textContent = state.category.categoryName || '--';
+                if (els.categoryNameDisplaySmall) els.categoryNameDisplaySmall.textContent = state.category.categoryName || '--';
+                if (els.productCountDisplay) els.productCountDisplay.textContent = state.category.associatedProducts || state.category.productCount || '--';
+                if (els.createdDateDisplay) els.createdDateDisplay.textContent = state.category.createdAt ? formatDate(state.category.createdAt) : '--';
+                if (els.updatedDateDisplay) {
+                    if (state.category.updatedAt) { els.updatedDateDisplay.textContent = formatDate(state.category.updatedAt); if (els.updatedDateSection) els.updatedDateSection.classList.remove('d-none'); }
+                    else if (els.updatedDateSection) els.updatedDateSection.classList.add('d-none');
+                }
+            }
         }
 
         cacheElements();
@@ -1520,6 +1681,14 @@
             els.errorState = document.getElementById('errorState');
             els.errorMessage = document.getElementById('errorMessage');
             els.messageDetail = document.getElementById('messageDetail');
+            els.subjectDisplay = document.getElementById('subjectDisplay');
+            els.messagesContainer = document.getElementById('messagesContainer');
+            els.singleMessageDisplay = document.getElementById('singleMessageDisplay');
+            els.senderNameDisplay = document.getElementById('senderNameDisplay');
+            els.senderEmailDisplay = document.getElementById('senderEmailDisplay');
+            els.senderPhoneDisplay = document.getElementById('senderPhoneDisplay');
+            els.submittedDateDisplay = document.getElementById('submittedDateDisplay');
+            els.updatedDateDisplay = document.getElementById('updatedDateDisplay');
             els.backBtn = document.getElementById('backBtn');
         }
 
@@ -1530,7 +1699,14 @@
             state.loading = true; state.error = null; render();
             try {
                 var response = await window.api.getTicket(state.id);
-                state.message = response.data;
+                state.message = response && response.data ? response.data : null;
+                // also fetch ticket messages to populate sender info and message body
+                try {
+                    var msgsResp = await window.api.getTicketMessages(state.id);
+                    state.messages = msgsResp && (msgsResp.messages || msgsResp.data) ? (msgsResp.messages || msgsResp.data) : [];
+                } catch (e) {
+                    state.messages = [];
+                }
             } catch (err) {
                 console.error('Failed to load message:', err);
                 state.error = 'Failed to load message. Please try again.';
@@ -1544,6 +1720,48 @@
                 else { els.errorState.classList.add('d-none'); }
             }
             if (els.messageDetail) els.messageDetail.classList.toggle('d-none', !(!state.loading && !state.error && state.message));
+
+            // populate fields when message is available
+            if (state.message) {
+                if (els.subjectDisplay) els.subjectDisplay.textContent = state.message.subject || '--';
+                if (els.submittedDateDisplay) els.submittedDateDisplay.textContent = state.message.createdAt ? formatDate(state.message.createdAt) : '--';
+                if (els.updatedDateDisplay) els.updatedDateDisplay.textContent = state.message.updatedAt ? formatDate(state.message.updatedAt) : '--';
+            }
+            // populate sender and messages from fetched ticket messages
+            if (els.senderNameDisplay) {
+                var sender = (state.messages && state.messages[0] && state.messages[0].senderInfo) ? state.messages[0].senderInfo : null;
+                if (sender) {
+                    if (els.senderNameDisplay) els.senderNameDisplay.textContent = sender.name || '--';
+                    if (els.senderEmailDisplay) { els.senderEmailDisplay.textContent = sender.email || '--'; if (sender.email) els.senderEmailDisplay.setAttribute('href', 'mailto:' + sender.email); }
+                    if (els.senderPhoneDisplay) els.senderPhoneDisplay.textContent = sender.phone || '--';
+                }
+            }
+            if (els.singleMessageDisplay) {
+                if (state.messages && state.messages.length > 0) {
+                    // show first message
+                    els.singleMessageDisplay.textContent = state.messages[0].message || '--';
+                } else if (state.message && state.message.message) {
+                    els.singleMessageDisplay.textContent = state.message.message || '--';
+                } else {
+                    els.singleMessageDisplay.textContent = '--';
+                }
+            }
+            if (els.messagesContainer) {
+                // if multiple messages, render the thread; otherwise hide the thread container
+                if (state.messages && state.messages.length > 1) {
+                    els.messagesContainer.style.display = 'block';
+                    els.messagesContainer.innerHTML = '';
+                    state.messages.forEach(function (m) {
+                        var p = document.createElement('div');
+                        p.className = 'mb-3';
+                        var who = (m.senderInfo && m.senderInfo.name) ? m.senderInfo.name : (m.senderType || 'User');
+                        p.innerHTML = '<div class="small text-muted">' + escapeHtml(who) + ' • ' + formatDate(m.createdAt) + '</div><div style="white-space:pre-wrap;">' + escapeHtml(m.message || '') + '</div>';
+                        els.messagesContainer.appendChild(p);
+                    });
+                } else {
+                    els.messagesContainer.style.display = 'none';
+                }
+            }
         }
 
         cacheElements();
@@ -1560,6 +1778,14 @@
             els.errorState = document.getElementById('errorState');
             els.errorMessage = document.getElementById('errorMessage');
             els.messageDetail = document.getElementById('messageDetail');
+            els.subjectDisplay = document.getElementById('subjectDisplay');
+            els.messagesContainer = document.getElementById('messagesContainer');
+            els.singleMessageDisplay = document.getElementById('singleMessageDisplay');
+            els.senderNameDisplay = document.getElementById('senderNameDisplay');
+            els.senderEmailDisplay = document.getElementById('senderEmailDisplay');
+            els.senderPhoneDisplay = document.getElementById('senderPhoneDisplay');
+            els.submittedDateDisplay = document.getElementById('submittedDateDisplay');
+            els.updatedDateDisplay = document.getElementById('updatedDateDisplay');
             els.backBtn = document.getElementById('backBtn');
         }
 
@@ -1570,7 +1796,13 @@
             state.loading = true; state.error = null; render();
             try {
                 var response = await window.api.getTicket(state.id);
-                state.message = response.data;
+                state.message = response && response.data ? response.data : null;
+                try {
+                    var msgsResp = await window.api.getTicketMessages(state.id);
+                    state.messages = msgsResp && (msgsResp.messages || msgsResp.data) ? (msgsResp.messages || msgsResp.data) : [];
+                } catch (e) {
+                    state.messages = [];
+                }
             } catch (err) {
                 console.error('Failed to load message:', err);
                 state.error = 'Failed to load message. Please try again.';
@@ -1584,6 +1816,45 @@
                 else { els.errorState.classList.add('d-none'); }
             }
             if (els.messageDetail) els.messageDetail.classList.toggle('d-none', !(!state.loading && !state.error && state.message));
+
+            if (state.message) {
+                if (els.subjectDisplay) els.subjectDisplay.textContent = state.message.subject || '--';
+                if (els.submittedDateDisplay) els.submittedDateDisplay.textContent = state.message.createdAt ? formatDate(state.message.createdAt) : '--';
+                if (els.updatedDateDisplay) els.updatedDateDisplay.textContent = state.message.updatedAt ? formatDate(state.message.updatedAt) : '--';
+            }
+
+            if (els.senderNameDisplay) {
+                var sender = (state.messages && state.messages[0] && state.messages[0].senderInfo) ? state.messages[0].senderInfo : null;
+                if (sender) {
+                    if (els.senderNameDisplay) els.senderNameDisplay.textContent = sender.name || '--';
+                    if (els.senderEmailDisplay) { els.senderEmailDisplay.textContent = sender.email || '--'; if (sender.email) els.senderEmailDisplay.setAttribute('href', 'mailto:' + sender.email); }
+                    if (els.senderPhoneDisplay) els.senderPhoneDisplay.textContent = sender.phone || '--';
+                }
+            }
+            if (els.singleMessageDisplay) {
+                if (state.messages && state.messages.length > 0) {
+                    els.singleMessageDisplay.textContent = state.messages[0].message || '--';
+                } else if (state.message && state.message.message) {
+                    els.singleMessageDisplay.textContent = state.message.message || '--';
+                } else {
+                    els.singleMessageDisplay.textContent = '--';
+                }
+            }
+            if (els.messagesContainer) {
+                if (state.messages && state.messages.length > 1) {
+                    els.messagesContainer.style.display = 'block';
+                    els.messagesContainer.innerHTML = '';
+                    state.messages.forEach(function (m) {
+                        var p = document.createElement('div');
+                        p.className = 'mb-3';
+                        var who = (m.senderInfo && m.senderInfo.name) ? m.senderInfo.name : (m.senderType || 'User');
+                        p.innerHTML = '<div class="small text-muted">' + escapeHtml(who) + ' • ' + formatDate(m.createdAt) + '</div><div style="white-space:pre-wrap;">' + escapeHtml(m.message || '') + '</div>';
+                        els.messagesContainer.appendChild(p);
+                    });
+                } else {
+                    els.messagesContainer.style.display = 'none';
+                }
+            }
         }
 
         cacheElements();
