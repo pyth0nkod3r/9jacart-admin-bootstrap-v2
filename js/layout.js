@@ -254,15 +254,31 @@
   function mount() {
     var activeRoute = document.body.getAttribute('data-route') || '';
 
+    // Ensure a persistent sidebar exists across all pages. Some pages (like
+    // dashboard.html) include <nav id="sidebar"> but others don't — create
+    // the element when missing so the navigation is always present.
     var sidebar = document.getElementById('sidebar');
-    if (sidebar) {
-      sidebar.innerHTML = renderSidebar(activeRoute);
+    if (!sidebar) {
+      sidebar = document.createElement('nav');
+      sidebar.id = 'sidebar';
+      sidebar.className = 'sidebar';
+      // Insert before main content so layout matches pages that already have it
+      var main = document.getElementById('main-content');
+      if (main && main.parentNode) main.parentNode.insertBefore(sidebar, main);
+      else document.body.insertBefore(sidebar, document.body.firstChild);
     }
+    sidebar.innerHTML = renderSidebar(activeRoute);
 
+    // Ensure top navbar exists
     var topnav = document.querySelector('header.top-navbar');
-    if (topnav) {
-      topnav.innerHTML = renderTopnav();
+    if (!topnav) {
+      topnav = document.createElement('header');
+      topnav.className = 'top-navbar';
+      var main = document.getElementById('main-content');
+      if (main) main.insertBefore(topnav, main.firstChild);
+      else document.body.appendChild(topnav);
     }
+    topnav.innerHTML = renderTopnav();
 
     attachSidebarToggle();
 
