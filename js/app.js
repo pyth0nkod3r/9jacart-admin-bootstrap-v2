@@ -1643,8 +1643,25 @@
                 console.debug('[debug] getProductCategory response keys=', response && Object.keys(response || {}));
                 state.category = response && response.data ? response.data : null;
             } catch (err) {
-                console.error('Failed to load product category:', err);
-                state.error = 'Failed to load product category. Please try again.';
+                console.error('Failed to load product category via API:', err);
+                // Attempt a local fallback using the mockData array in case the API helper fails
+                try {
+                    if (window.mockData && Array.isArray(window.mockData.productCategories)) {
+                        var local = window.mockData.productCategories.find(function (x) { return String(x.categoryId) === String(state.id) || String(x.id) === String(state.id); });
+                        if (local) {
+                            console.debug('[debug] using local mockData fallback for product category id=', state.id);
+                            state.category = local;
+                            state.error = null;
+                        } else {
+                            state.error = 'Product category not found';
+                        }
+                    } else {
+                        state.error = 'Failed to load product category. Please try again.';
+                    }
+                } catch (e2) {
+                    console.error('Fallback failed:', e2);
+                    state.error = 'Failed to load product category. Please try again.';
+                }
             } finally { state.loading = false; render(); }
         }
 
@@ -1896,16 +1913,40 @@
     }
 
     function initApp() {
-        initSidebar();
-        initDropdowns();
-        initThemeToggle();
-
-        var route = document.body.getAttribute('data-route');
-        if (route && pageHandlers[route]) {
-            pageHandlers[route]();
-        } else if (document.getElementById('loginForm')) {
-            initLogin();
+        // Wait a short time for the shared layout to mount (reduces intermittent
+        // race where page handlers run before layout or auth have wired DOM).
+        function waitForLayout(timeoutMs) {
+            return new Promise(function (resolve) {
+                var start = Date.now();
+                function check() {
+                    var hasSidebar = !!document.getElementById('sidebar');
+                    var hasLayoutRootChildren = (document.getElementById('layout-root') && document.getElementById('layout-root').children.length > 0);
+                    var layoutApiReady = !!(window.layout && typeof window.layout.applyActiveRoute === 'function');
+                    if (hasSidebar || hasLayoutRootChildren || layoutApiReady) return resolve(true);
+                    if (Date.now() - start > (timeoutMs || 800)) return resolve(false);
+                    setTimeout(check, 50);
+                }
+                check();
+            });
         }
+
+        waitForLayout(800).then(function (ready) {
+            if (!ready) console.debug('[debug] layout not ready; continuing anyway');
+            initSidebar();
+            initDropdowns();
+            initThemeToggle();
+
+            var route = document.body.getAttribute('data-route');
+            if (route && pageHandlers[route]) {
+                pageHandlers[route]();
+                // let the layout update active route if available
+                if (window.layout && typeof window.layout.applyActiveRoute === 'function') {
+                    try { window.layout.applyActiveRoute(route); } catch (e) { }
+                }
+            } else if (document.getElementById('loginForm')) {
+                initLogin();
+            }
+        });
     }
 
     if (document.readyState === 'loading') {
